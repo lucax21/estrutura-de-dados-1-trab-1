@@ -1,18 +1,26 @@
-#include <stdbool.h>
+#ifndef __MATRIZ__
+#define __MATRIZ__
 
-typedef struct matriz{
+#include <stdbool.h>
+#include "matriz_esparsa.h"
+
+typedef struct matriz
+{
 	int lin_tam, col_tam;
 	int id;
-	//struct *ms;
-}Matriz;
+	Lista_Mat_Esp *mat_esp;
+} Matriz;
 
-typedef struct descritor Lista;
+typedef struct descritor Lista_Mat;
 
-Lista *cria_lista();
+Lista_Mat *cria_lista_mat();
 
-void libera_lista(Lista *li);
+void libera_lista_mat(Lista_Mat *li);
 
-bool insere_lista(Lista *li, struct matriz mat);
+bool insere_matriz(Lista_Mat *li, struct matriz mat);
 
-void imprime_lista(Lista *li);
+void imprime_matrizes(Lista_Mat *li);
 
+bool busca_matriz(Lista_Mat *li, int id_mat, Matriz *mat);
+
+#endif

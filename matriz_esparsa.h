@@ -2,6 +2,7 @@
 #define __MATRIZ_ESPARSA__
 
 #include <stdbool.h>
+// #include "matriz.h"
 
 typedef struct nodo
 {
@@ -17,6 +18,8 @@ void libera_matriz_esp(Lista_Mat_Esp *li);
 
 bool insere_matriz_esp(Lista_Mat_Esp *li, struct nodo dado);
 
-void imprime_matriz_esparsa(Lista_Mat_Esp *li);
+bool remove_matriz_esp(Lista_Mat_Esp *li, int lin, int col);
+
+// void imprime_matriz_esparsa(Matriz li);
 
 #endif

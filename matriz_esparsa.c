@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include "matriz_esparsa.h"
+// #include "matriz.h"
 
 typedef struct elemento
 {
@@ -81,19 +82,68 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, struct nodo dado)
 	return 1;
 }
 
-void imprime_matriz_esparsa(Lista_Mat_Esp *li)
+bool remove_matriz_esp(Lista_Mat_Esp *li, int lin, int col)
 {
-	if (li == NULL || li->inicio == NULL)
+	if (li == NULL)
+		return 0;
+
+	Elem *ant, *atual = li->inicio;
+	while (atual != NULL && (atual->dados.col != col && atual->dados.lin != lin))
 	{
-		printf("lista vazia\n");
+		ant = atual;
+		atual = atual->prox;
+	}
+
+	if (atual == NULL)
+		return 0;
+
+	else if (atual == li->inicio)
+	{
+		if (li->inicio->prox == NULL)
+		{
+			li->inicio = NULL;
+			li->fim = NULL;
+			free(atual);
+			return 1;
+		}
+		else
+		{
+			li->inicio = atual->prox;
+			free(atual);
+			return 1;
+		}
 	}
 	else
 	{
-		Elem *no = li->inicio;
-		while (no != NULL)
+		if (atual->prox == NULL)
 		{
-			printf("matriz esparsa coluna %d\n", no->dados.col);
-			no = no->prox;
+			li->fim = ant;
+			ant->prox = NULL;
+			free(atual);
+			return 1;
+		}
+		else
+		{
+			ant->prox = atual->prox;
+			free(atual);
+			return 1;
 		}
 	}
 }
+
+// void imprime_matriz_esparsa(struct matriz *li)
+// {
+// 	if (li->mat_esp == NULL)
+// 	{
+// 		printf("Matriz esparsa vazia\n");
+// 	}
+// 	else
+// 	{
+// 		Elem *no = li->mat_esp;
+// 		while (no != NULL)
+// 		{
+// 			printf("matriz esparsa [%d] [%d] = %.2f\n", no->dados.col, no->dados.lin, no->dados.dado);
+// 			no = no->prox;
+// 		}
+// 	}
+// }

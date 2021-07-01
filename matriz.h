@@ -19,8 +19,14 @@ void libera_lista_mat(Lista_Mat *li);
 
 bool insere_matriz(Lista_Mat *li, struct matriz mat);
 
+bool vazia_matriz(Lista_Mat *li);
+
+bool remove_matriz(Lista_Mat *li, short int id_mat);
+
 void imprime_matrizes(Lista_Mat *li);
 
-bool busca_matriz(Lista_Mat *li, int id_mat, Matriz *mat);
+void imprime_matriz_esp(Matriz mat);
+
+bool busca_matriz(Lista_Mat *li, short int id_mat, Matriz *mat);
 
 #endif

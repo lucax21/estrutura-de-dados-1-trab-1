@@ -45,6 +45,13 @@ void libera_lista_mat(Lista_Mat *li)
 	}
 }
 
+bool vazia_matriz(Lista_Mat *li)
+{
+	if (li == NULL)
+		return 1;
+	return 0;
+}
+
 bool insere_matriz(Lista_Mat *li, struct matriz mat)
 {
 	if (li == NULL)
@@ -76,6 +83,59 @@ bool insere_matriz(Lista_Mat *li, struct matriz mat)
 	return 1;
 }
 
+bool remove_matriz(Lista_Mat *li, short int id_mat)
+{
+	if (li == NULL)
+		return 0;
+
+	Elem *ant, *atual = li->inicio;
+	while (atual != NULL && atual->dados.id != id_mat)
+	{
+		ant = atual;
+		atual = atual->prox;
+	}
+	//nao achou o elemento
+	if (atual == NULL)
+		return 0;
+
+	else if (atual == li->inicio)
+	{
+		if (li->inicio->prox == NULL)
+		{
+			li->inicio = NULL;
+			li->final = NULL;
+			libera_matriz_esp(atual->dados.mat_esp);
+			free(atual);
+			return 1;
+		}
+		else
+		{
+			li->inicio = atual->prox;
+			libera_matriz_esp(atual->dados.mat_esp);
+			free(atual);
+			return 1;
+		}
+	}
+	else
+	{
+		if (atual->prox == NULL)
+		{
+			li->final = ant;
+			ant->prox = NULL;
+			libera_matriz_esp(atual->dados.mat_esp);
+			free(atual);
+			return 1;
+		}
+		else
+		{
+			ant->prox = atual->prox;
+			libera_matriz_esp(atual->dados.mat_esp);
+			free(atual);
+			return 1;
+		}
+	}
+}
+
 void imprime_matrizes(Lista_Mat *li)
 {
 	if (li == NULL || li->inicio == NULL)
@@ -93,7 +153,18 @@ void imprime_matrizes(Lista_Mat *li)
 	}
 }
 
-bool busca_matriz(Lista_Mat *li, int id_mat, struct matriz *mat)
+void imprime_matriz_esp(Matriz mat)
+{
+	if (mat.mat_esp->inicio == NULL)
+	{
+		printf("Matriz esparsa vazia.\n");
+	}
+	else
+	{
+	}
+}
+
+bool busca_matriz(Lista_Mat *li, short int id_mat, struct matriz *mat)
 {
 	if (li == NULL)
 		return 0;

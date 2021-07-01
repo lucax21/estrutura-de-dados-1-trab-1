@@ -4,6 +4,8 @@
 
 void add_matriz(Lista_Mat *lm);
 void add_dados_matriz_esp(Lista_Mat *lm);
+void rm_matriz(Lista_Mat *lm);
+void rm_matriz_esp(Lista_Mat *lm);
 
 void add_matriz(Lista_Mat *lm)
 {
@@ -34,7 +36,7 @@ void add_dados_matriz_esp(Lista_Mat *lm)
 
 	printf("Qual matriz voce deseja inserir dados(informe o numero)");
 	imprime_matrizes(lm);
-	scanf("%d", &opc);
+	scanf("%hd", &opc);
 	if (busca_matriz(lm, opc, &mat))
 	{
 		do
@@ -46,18 +48,60 @@ void add_dados_matriz_esp(Lista_Mat *lm)
 			printf("informe dado: \n");
 			scanf("%f", &mat_esp.dado);
 
-			if (mat_esp.lin >= 0 && mat_esp.col >= 0)
+			if (mat_esp.lin >= 0 && mat_esp.col >= 0 && mat_esp.dado > 0)
 			{
 				if (insere_matriz_esp(mat.mat_esp, mat_esp))
 					printf("Sucesso inserir dados na matriz esparsa.\n");
 				else
 					printf("Erro ao inserir dados na matriz esparsa.\n");
 			}
+			// imprime_matriz_esparsa(mat.mat_esp);
 		} while (mat_esp.lin < 0 || mat_esp.col < 0);
 	}
 	else
 	{
 		printf("Matriz nao encontrada.\n");
+	}
+}
+
+void rm_matriz(Lista_Mat *lm)
+{
+	short int opc;
+	imprime_matrizes(lm);
+	printf("Escolha o numero da matriz que deseja remover.\n");
+	scanf("%hd", &opc);
+	if (remove_matriz(lm, opc))
+	{
+		printf("Removido com sucesso.\n");
+	}
+	else
+	{
+		printf("Nao foi possivel remover a matriz.\n");
+	}
+}
+
+void rm_matriz_esp(Lista_Mat *lm)
+{
+	int lin, col;
+	short int opc;
+	Matriz mat;
+	imprime_matrizes(lm);
+	printf("Escolha a matriz: \n");
+	scanf("%hd", &opc);
+	if (busca_matriz(lm, opc, &mat))
+	{
+		do
+		{
+			printf("Informe a linha da matriz: \n");
+			scanf("%d", &lin);
+			printf("Informe a coluna da matriz: \n");
+			scanf("%d", &col);
+		} while ((col < 0 && col > mat.col_tam) || (lin >= 0 && lin < mat.lin_tam));
+		printf("Tests tam li %d tam co %d\n", mat.col_tam, mat.lin_tam);
+	}
+	else
+	{
+		printf("Matriz nao encontrado.\n");
 	}
 }
 
@@ -88,24 +132,23 @@ void main()
 	test = insere_matriz_esp(li2, nod);
 
 	// check point 1
-	printf("busca matriz: %d\n", busca_matriz(li, 1, &mat));
-	mat.mat_esp = cria_matriz_esp();
-	if (insere_matriz_esp(mat.mat_esp, nod))
-	{
-		printf("Adicionado com sucesso na matriz esparsa.\n");
-	}
-	else
-	{
-		printf("Erro o adicionar na matriz esparsa.\n");
-	}
-	imprime_matriz_esparsa(mat.mat_esp);
-	libera_matriz_esp(mat.mat_esp);
-
-	imprime_matriz_esparsa(li2);
-	printf("AAAAAA\n");
+	// printf("busca matriz: %d\n", busca_matriz(li, 1, &mat));
+	// mat.mat_esp = cria_matriz_esp();
+	// if (insere_matriz_esp(mat.mat_esp, nod))
+	// {
+	// 	printf("Adicionado com sucesso na matriz esparsa.\n");
+	// }
+	// else
+	// {
+	// 	printf("Erro o adicionar na matriz esparsa.\n");
+	// }
+	// imprime_matriz_esparsa(mat.mat_esp);
+	// libera_matriz_esp(mat.mat_esp);
 	// imprime_matriz_esparsa(li2);
+	// printf("AAAAAA\n");
+	// // imprime_matriz_esparsa(li2);
 
-	imprime_matrizes(li);
+	// imprime_matrizes(li);
 	// fim da area de test
 	do
 	{
@@ -113,6 +156,8 @@ void main()
 		printf("1 - Adicionar matriz\n");
 		printf("2 - Listar matrizes\n");
 		printf("3 - Adicionar dados na matriz\n");
+		printf("4 - Remover matriz.\n");
+		printf("5 - REVER ESSA FUNCAO Remover dado na matriz esparsa.\n");
 		scanf("%d", &op);
 
 		switch (op)
@@ -126,6 +171,12 @@ void main()
 		case 3:
 			add_dados_matriz_esp(li);
 			break;
+		case 4:
+			rm_matriz(li);
+			break;
+		case 5:
+			rm_matriz_esp(li);
+			break;
 		default:
 			break;
 		}
@@ -133,5 +184,6 @@ void main()
 	} while (op);
 
 	libera_lista_mat(li);
-	libera_matriz_esp(li2);
+
+	libera_matriz_esp(li2); // apagar isso depois hsauhas
 }

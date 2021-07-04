@@ -5,16 +5,16 @@
 #include "matriz_esparsa.h"
 // #include "matriz.h"
 
-typedef struct elemento
+typedef struct elemento_mat_esp
 {
 	struct nodo dados;
-	struct elemento *prox;
+	struct elemento_mat_esp *prox;
 } Elem;
 
-struct descritor
+struct descritor_mat_esp
 {
-	struct elemento *inicio;
-	struct elemento *fim;
+	struct elemento_mat_esp *inicio;
+	struct elemento_mat_esp *fim;
 };
 
 Lista_Mat_Esp *cria_matriz_esp()

@@ -153,15 +153,25 @@ void imprime_matrizes(Lista_Mat *li)
 	}
 }
 
-void imprime_matriz_esp(Matriz mat)
+void imprime_matriz_esp(Matriz *mat)
 {
-	if (mat.mat_esp->inicio == NULL)
+	// struct elemento_mat_esp *no = mat->mat_esp;
+
+	for (int i = 0; i < mat->lin_tam; i++)
 	{
-		printf("Matriz esparsa vazia.\n");
+		for (int j = 0; j < mat->col_tam; j++)
+		{
+			// if (false)
+			{
+				printf(" %d ");
+				// no = no->inicio->prox;
+			}
+			//else
+			printf(" 0 ");
+		}
+		printf("\n");
 	}
-	else
-	{
-	}
+	// }
 }
 
 bool busca_matriz(Lista_Mat *li, short int id_mat, struct matriz *mat)

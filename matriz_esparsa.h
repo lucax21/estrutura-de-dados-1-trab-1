@@ -10,7 +10,7 @@ typedef struct nodo
 	int lin, col;
 } Matriz_esparsa;
 
-typedef struct descritor Lista_Mat_Esp;
+typedef struct descritor_mat_esp Lista_Mat_Esp;
 
 Lista_Mat_Esp *cria_matriz_esp();
 

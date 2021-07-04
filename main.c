@@ -105,6 +105,24 @@ void rm_matriz_esp(Lista_Mat *lm)
 	}
 }
 
+void imprime_mat_esp(Lista_Mat *lm)
+{
+	Matriz mat;
+	short int opc;
+
+	imprime_matrizes(lm);
+	printf("Escolha a matriz: \n");
+	scanf("%hd", &opc);
+	if (busca_matriz(lm, opc, &mat))
+	{
+		imprime_matriz_esp(&mat);
+	}
+	else
+	{
+		printf("Matriz nao encontrado.\n");
+	}
+}
+
 void main()
 {
 	Lista_Mat *li = NULL;
@@ -158,6 +176,7 @@ void main()
 		printf("3 - Adicionar dados na matriz\n");
 		printf("4 - Remover matriz.\n");
 		printf("5 - REVER ESSA FUNCAO Remover dado na matriz esparsa.\n");
+		printf("6 - Imprime matriz esparsa.\n");
 		scanf("%d", &op);
 
 		switch (op)
@@ -176,6 +195,9 @@ void main()
 			break;
 		case 5:
 			rm_matriz_esp(li);
+			break;
+		case 6:
+			imprime_mat_esp(li);
 			break;
 		default:
 			break;

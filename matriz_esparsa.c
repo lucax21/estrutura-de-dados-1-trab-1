@@ -60,14 +60,14 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, struct nodo dado_param)
 	}
 	else
 	{
-		if (dado_param.dado < li->inicio->dados.dado)
+		if (dado_param.lin < li->inicio->dados.dado && dado_param.col < li->inicio->dados.col)
 		{
 			no->prox = li->inicio;
 			li->inicio = no;
 		}
 
 		//insere no fim
-		else if (dado_param.dado > li->fim->dados.dado)
+		else if (dado_param.lin > li->fim->dados.lin && dado_param.col < li->fim->dados.col)
 		{
 			no->prox = NULL;
 			li->fim->prox = no;
@@ -76,7 +76,7 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, struct nodo dado_param)
 		else
 		{
 			Elem *ant, *atual = li->inicio;
-			while (atual != NULL && atual->dados.dado < dado_param.dado)
+			while (atual != NULL && (atual->dados.lin < dado_param.lin && atual->dados.col < dado_param.col))
 			{
 				ant = atual;
 				atual = atual->prox;

@@ -99,8 +99,19 @@ void rm_matriz_esp(Lista_Mat *lm)
 			scanf("%d", &lin);
 			printf("Informe a coluna da matriz: \n");
 			scanf("%d", &col);
-		} while ((col < 0 && col > mat.col_tam) && (lin < 0 && lin > mat.lin_tam));
-		}
+
+			if ((col >= 0 && col < mat.col_tam) && (lin >= 0 && lin < mat.col_tam))
+			// if (1)
+			{
+				if (remove_matriz_esp(mat.mat_esp, lin, col))
+				{
+					printf("Sucesso ao remover dado na matriz esparsa.\n");
+				}
+				else
+					printf("Erro ao remover dado na matriz esparsa.\n");
+			}
+		} while ((col < 0 || col > mat.col_tam) || (lin < 0 || lin > mat.lin_tam));
+	}
 	else
 	{
 		printf("Matriz nao encontrado.\n");
@@ -179,7 +190,7 @@ void main()
 		printf("2 - Listar matrizes\n");
 		printf("3 - Adicionar dados na matriz\n");
 		printf("4 - Remover matriz.\n");
-		printf("5 - REVER ESSA FUNCAO Remover dado na matriz esparsa.\n");
+		printf("5 - Remover dado na matriz esparsa.\n");
 		printf("6 - Imprime matriz esparsa.\n");
 		scanf("%d", &op);
 

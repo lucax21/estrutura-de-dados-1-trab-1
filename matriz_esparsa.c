@@ -176,3 +176,19 @@ void test2(Lista_Mat_Esp *li)
 	}
 	printf("\n");
 }
+
+void imprime_mat_esparsa_diagonal(Lista_Mat_Esp *li, int lin_tam, int col_tam)
+{
+	Elem *no = li->inicio;
+	for (int j = 0; j < col_tam; j++)
+	{
+		if (no != NULL && no->dados.lin == j && no->dados.col == j)
+		{
+			printf(" %.2f ", no->dados.dado);
+			no = no->prox;
+		}
+		else
+			printf(" 0 ");
+	}
+	printf("\n");
+}

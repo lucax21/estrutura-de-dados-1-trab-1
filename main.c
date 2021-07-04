@@ -138,6 +138,26 @@ void imprime_mat_esp(Lista_Mat *lm)
 	}
 }
 
+void imprime_mat_esp_diagonal(Lista_Mat *lm)
+{
+	Matriz mat;
+	short int opc;
+
+	imprime_matrizes(lm);
+	printf("Escolha a matriz: \n");
+	scanf("%hd", &opc);
+	if (busca_matriz(lm, opc, &mat))
+	{
+		// imprime_matriz_esp(&mat);
+		// test2(mat.mat_esp);
+		imprime_mat_esparsa_diagonal(mat.mat_esp, mat.lin_tam, mat.col_tam);
+	}
+	else
+	{
+		printf("Matriz nao encontrado.\n");
+	}
+}
+
 void main()
 {
 	Lista_Mat *li = NULL;
@@ -192,6 +212,7 @@ void main()
 		printf("4 - Remover matriz.\n");
 		printf("5 - Remover dado na matriz esparsa.\n");
 		printf("6 - Imprime matriz esparsa.\n");
+		printf("7 - Imprime diagonal principal da matriz esparsa.\n");
 		scanf("%d", &op);
 
 		switch (op)
@@ -213,6 +234,9 @@ void main()
 			break;
 		case 6:
 			imprime_mat_esp(li);
+			break;
+		case 7:
+			imprime_mat_esp_diagonal(li);
 			break;
 		default:
 			break;

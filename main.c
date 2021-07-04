@@ -48,6 +48,8 @@ void add_dados_matriz_esp(Lista_Mat *lm)
 			printf("informe dado: \n");
 			scanf("%f", &mat_esp.dado);
 
+			// printf("HUSHUHDUHAS %f", mat_esp.dado);
+
 			if (mat_esp.lin >= 0 && mat_esp.col >= 0 && mat_esp.dado > 0)
 			{
 				if (insere_matriz_esp(mat.mat_esp, mat_esp))
@@ -90,15 +92,15 @@ void rm_matriz_esp(Lista_Mat *lm)
 	scanf("%hd", &opc);
 	if (busca_matriz(lm, opc, &mat))
 	{
+		imprime_mat_esparsa(mat.mat_esp, mat.lin_tam, mat.col_tam);
 		do
 		{
 			printf("Informe a linha da matriz: \n");
 			scanf("%d", &lin);
 			printf("Informe a coluna da matriz: \n");
 			scanf("%d", &col);
-		} while ((col < 0 && col > mat.col_tam) || (lin >= 0 && lin < mat.lin_tam));
-		printf("Tests tam li %d tam co %d\n", mat.col_tam, mat.lin_tam);
-	}
+		} while ((col < 0 && col > mat.col_tam) && (lin < 0 && lin > mat.lin_tam));
+		}
 	else
 	{
 		printf("Matriz nao encontrado.\n");
@@ -115,7 +117,9 @@ void imprime_mat_esp(Lista_Mat *lm)
 	scanf("%hd", &opc);
 	if (busca_matriz(lm, opc, &mat))
 	{
-		imprime_matriz_esp(&mat);
+		// imprime_matriz_esp(&mat);
+		// test2(mat.mat_esp);
+		imprime_mat_esparsa(mat.mat_esp, mat.lin_tam, mat.col_tam);
 	}
 	else
 	{
@@ -135,19 +139,19 @@ void main()
 	li = cria_lista_mat();
 
 	// inicio da area de teste
-	test = insere_matriz(li, mat);
-	test = insere_matriz(li, mat);
-	test = insere_matriz(li, mat);
-	test = insere_matriz(li, mat);
-	test = insere_matriz(li, mat);
-	test = insere_matriz(li, mat);
+	// test = insere_matriz(li, mat);
+	// test = insere_matriz(li, mat);
+	// test = insere_matriz(li, mat);
+	// test = insere_matriz(li, mat);
+	// test = insere_matriz(li, mat);
+	// test = insere_matriz(li, mat);
 
-	li2 = cria_matriz_esp();
+	// li2 = cria_matriz_esp();
 
-	nod.col = 12;
-	nod.dado = 13;
-	printf("nod %d\n", nod.col);
-	test = insere_matriz_esp(li2, nod);
+	// nod.col = 12;
+	// nod.dado = 13;
+	// printf("nod %d\n", nod.col);
+	// test = insere_matriz_esp(li2, nod);
 
 	// check point 1
 	// printf("busca matriz: %d\n", busca_matriz(li, 1, &mat));

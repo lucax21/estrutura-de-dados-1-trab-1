@@ -43,7 +43,7 @@ void libera_matriz_esp(Lista_Mat_Esp *li)
 	}
 }
 
-bool insere_matriz_esp(Lista_Mat_Esp *li, struct nodo dado)
+bool insere_matriz_esp(Lista_Mat_Esp *li, struct nodo dado_param)
 {
 	if (li == NULL)
 		return 0;
@@ -51,7 +51,7 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, struct nodo dado)
 	if (no == NULL)
 		return 0;
 
-	no->dados = dado;
+	no->dados = dado_param;
 	if (li->inicio == NULL)
 	{
 		li->inicio = no;
@@ -60,7 +60,14 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, struct nodo dado)
 	}
 	else
 	{
-		if (dado.dado > li->fim->dados.dado)
+		if (dado_param.dado < li->inicio->dados.dado)
+		{
+			no->prox = li->inicio;
+			li->inicio = no;
+		}
+
+		//insere no fim
+		else if (dado_param.dado > li->fim->dados.dado)
 		{
 			no->prox = NULL;
 			li->fim->prox = no;
@@ -69,7 +76,7 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, struct nodo dado)
 		else
 		{
 			Elem *ant, *atual = li->inicio;
-			while (atual != NULL && atual->dados.dado < dado.dado)
+			while (atual != NULL && atual->dados.dado < dado_param.dado)
 			{
 				ant = atual;
 				atual = atual->prox;
@@ -131,19 +138,41 @@ bool remove_matriz_esp(Lista_Mat_Esp *li, int lin, int col)
 	}
 }
 
-// void imprime_matriz_esparsa(struct matriz *li)
+// struct nodo *test(Lista_Mat_Esp *li)
 // {
-// 	if (li->mat_esp == NULL)
-// 	{
-// 		printf("Matriz esparsa vazia\n");
-// 	}
-// 	else
-// 	{
-// 		Elem *no = li->mat_esp;
-// 		while (no != NULL)
-// 		{
-// 			printf("matriz esparsa [%d] [%d] = %.2f\n", no->dados.col, no->dados.lin, no->dados.dado);
-// 			no = no->prox;
-// 		}
-// 	}
+// 	struct nodo *aux = li->inicio->dados;
+// 	return aux;
 // }
+
+void imprime_mat_esparsa(Lista_Mat_Esp *li, int lin_tam, int col_tam)
+{
+
+	// printf("XXX %d %d \n", lin_tam, col_tam);
+	Elem *no = li->inicio;
+	for (int i = 0; i < lin_tam; i++)
+	{
+		for (int j = 0; j < col_tam; j++)
+		{
+
+			if (no != NULL && no->dados.lin == i && no->dados.col == j)
+			{
+				printf(" %.2f ", no->dados.dado);
+				no = no->prox;
+			}
+			else
+				printf(" 0 ");
+		}
+		printf("\n");
+	}
+}
+
+void test2(Lista_Mat_Esp *li)
+{
+	Elem *no = li->inicio;
+	while (no != NULL)
+	{
+		printf(" -- %f ", no->dados.dado);
+		no = no->prox;
+	}
+	printf("\n");
+}

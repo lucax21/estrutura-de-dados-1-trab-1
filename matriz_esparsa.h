@@ -16,10 +16,14 @@ Lista_Mat_Esp *cria_matriz_esp();
 
 void libera_matriz_esp(Lista_Mat_Esp *li);
 
-bool insere_matriz_esp(Lista_Mat_Esp *li, struct nodo dado);
+bool insere_matriz_esp(Lista_Mat_Esp *li, struct nodo dado_param);
 
 bool remove_matriz_esp(Lista_Mat_Esp *li, int lin, int col);
 
-// void imprime_matriz_esparsa(Matriz li);
+// struct nodo *test(Lista_Mat_Esp *li);
+
+void imprime_mat_esparsa(Lista_Mat_Esp *li, int lin_tam, int col_tam);
+
+void test2(Lista_Mat_Esp *li);
 
 #endif

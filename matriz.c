@@ -153,26 +153,30 @@ void imprime_matrizes(Lista_Mat *li)
 	}
 }
 
-void imprime_matriz_esp(Matriz *mat)
-{
-	// struct elemento_mat_esp *no = mat->mat_esp;
+// void imprime_matriz_esp(Matriz *mat)
+// {
+// 	// struct elemento_mat_esp *no = mat->mat_esp;
 
-	for (int i = 0; i < mat->lin_tam; i++)
-	{
-		for (int j = 0; j < mat->col_tam; j++)
-		{
-			// if (false)
-			{
-				printf(" %d ");
-				// no = no->inicio->prox;
-			}
-			//else
-			printf(" 0 ");
-		}
-		printf("\n");
-	}
-	// }
-}
+// 	struct elemento_mat_esp *aux = test1(mat->mat_esp);
+
+// 	printf("");
+
+// 	for (int i = 0; i < mat->lin_tam; i++)
+// 	{
+// 		for (int j = 0; j < mat->col_tam; j++)
+// 		{
+// 			// if (false)
+// 			{
+// 				printf(" %d ");
+// 				// no = no->inicio->prox;
+// 			}
+// 			//else
+// 			printf(" 0 ");
+// 		}
+// 		printf("\n");
+// 	}
+// 	// }
+// }
 
 bool busca_matriz(Lista_Mat *li, short int id_mat, struct matriz *mat)
 {

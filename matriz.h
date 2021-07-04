@@ -25,7 +25,7 @@ bool remove_matriz(Lista_Mat *li, short int id_mat);
 
 void imprime_matrizes(Lista_Mat *li);
 
-void imprime_matriz_esp(Matriz *mat);
+// void imprime_matriz_esp(Matriz *mat);
 
 bool busca_matriz(Lista_Mat *li, short int id_mat, Matriz *mat);
 

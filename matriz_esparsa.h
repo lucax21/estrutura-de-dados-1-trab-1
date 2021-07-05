@@ -16,7 +16,7 @@ Lista_Mat_Esp *cria_matriz_esp();
 
 void libera_matriz_esp(Lista_Mat_Esp *li);
 
-bool insere_matriz_esp(Lista_Mat_Esp *li, struct nodo dado_param);
+bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param);
 
 bool remove_matriz_esp(Lista_Mat_Esp *li, int lin, int col);
 

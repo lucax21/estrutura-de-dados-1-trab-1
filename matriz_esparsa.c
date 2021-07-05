@@ -43,7 +43,7 @@ void libera_matriz_esp(Lista_Mat_Esp *li)
 	}
 }
 
-bool insere_matriz_esp(Lista_Mat_Esp *li, struct nodo dado_param)
+bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param)
 {
 	if (li == NULL)
 		return 0;
@@ -60,27 +60,50 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, struct nodo dado_param)
 	}
 	else
 	{
-		if (dado_param.lin < li->inicio->dados.dado && dado_param.col < li->inicio->dados.col)
+		// insere no inicio
+		if ((dado_param.lin < li->inicio->dados.lin) && (dado_param.col < li->inicio->dados.col))
 		{
+			printf("\n\ntest 1\n\n");
 			no->prox = li->inicio;
 			li->inicio = no;
 		}
+		//
+		// else if (dado_param.lin == li->inicio->dados.lin && dado_param.col < li->inicio->dados.col)
+		// {
+		// 	no->prox = li->inicio;
+		// 	li->inicio = no;
+		// }
+		// else if(dado_param.lin == li->inicio->dados.lin && dado_param.col > li->inicio->dados.col){
+		// 	if(li->inicio->prox == li->fim){
+		// 		// aux = li->fim
+		// 	}
+		// 	no->prox = li->inicio->prox;
+		// 	li->inicio->prox = no;
+		// 	//ver se ele eh ultimo ou esta no meio
+
+		// }
 
 		//insere no fim
-		else if (dado_param.lin > li->fim->dados.lin && dado_param.col < li->fim->dados.col)
+		else if (dado_param.lin > li->fim->dados.lin && dado_param.col > li->fim->dados.col)
 		{
+			printf("\n\ntest 2\n\n");
 			no->prox = NULL;
 			li->fim->prox = no;
 			li->fim = no;
 		}
+		//
 		else
 		{
+			printf("\n\ntest 3\n\n");
 			Elem *ant, *atual = li->inicio;
-			while (atual != NULL && (atual->dados.lin < dado_param.lin && atual->dados.col < dado_param.col))
+			//
+			while (atual != NULL && atual->dados.lin < dado_param.lin && atual->dados.col < dado_param.col)
 			{
 				ant = atual;
 				atual = atual->prox;
+				printf("Test 5\n");
 			}
+			printf("\n\ntest 4  %d \n\n", (atual == NULL));
 			no->prox = ant->prox;
 			ant->prox = no;
 		}
@@ -171,7 +194,7 @@ void test2(Lista_Mat_Esp *li)
 	Elem *no = li->inicio;
 	while (no != NULL)
 	{
-		printf(" -- %f ", no->dados.dado);
+		printf("l %d c %d d %f \n", no->dados.lin, no->dados.col, no->dados.dado);
 		no = no->prox;
 	}
 	printf("\n");

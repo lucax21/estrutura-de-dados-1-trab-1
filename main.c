@@ -31,7 +31,7 @@ void add_matriz(Lista_Mat *lm)
 void add_dados_matriz_esp(Lista_Mat *lm)
 {
 	Matriz mat;
-	Matriz_esparsa mat_esp;
+	Matriz_esparsa aux_mat_esp;
 	short int opc;
 
 	printf("Qual matriz voce deseja inserir dados(informe o numero)");
@@ -42,23 +42,23 @@ void add_dados_matriz_esp(Lista_Mat *lm)
 		do
 		{
 			printf("informe coluna do dado: \n");
-			scanf("%d", &mat_esp.col);
+			scanf("%d", &aux_mat_esp.col);
 			printf("informe linha do dado: \n");
-			scanf("%d", &mat_esp.lin);
+			scanf("%d", &aux_mat_esp.lin);
 			printf("informe dado: \n");
-			scanf("%f", &mat_esp.dado);
+			scanf("%f", &aux_mat_esp.dado);
 
-			// printf("HUSHUHDUHAS %f", mat_esp.dado);
+			printf("HUSHUHDUHAS linha %d coluna d% dado %.2f", aux_mat_esp.lin, aux_mat_esp.col, aux_mat_esp.dado);
 
-			if (mat_esp.lin >= 0 && mat_esp.col >= 0 && mat_esp.dado > 0)
+			if (aux_mat_esp.lin >= 0 && aux_mat_esp.col >= 0 && aux_mat_esp.dado > 0)
 			{
-				if (insere_matriz_esp(mat.mat_esp, mat_esp))
+				if (insere_matriz_esp(mat.mat_esp, aux_mat_esp))
 					printf("Sucesso inserir dados na matriz esparsa.\n");
 				else
 					printf("Erro ao inserir dados na matriz esparsa.\n");
 			}
 			// imprime_matriz_esparsa(mat.mat_esp);
-		} while (mat_esp.lin < 0 || mat_esp.col < 0);
+		} while (aux_mat_esp.lin < 0 || aux_mat_esp.col < 0);
 	}
 	else
 	{
@@ -128,8 +128,8 @@ void imprime_mat_esp(Lista_Mat *lm)
 	scanf("%hd", &opc);
 	if (busca_matriz(lm, opc, &mat))
 	{
-		// imprime_matriz_esp(&mat);
-		// test2(mat.mat_esp);
+
+		test2(mat.mat_esp);
 		imprime_mat_esparsa(mat.mat_esp, mat.lin_tam, mat.col_tam);
 	}
 	else

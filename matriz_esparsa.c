@@ -358,8 +358,21 @@ void test2(Lista_Mat_Esp *li)
 void imprime_mat_esparsa_diagonal(Lista_Mat_Esp *li, int lin_tam, int col_tam)
 {
 	Elem *no = li->inicio;
+	int i = 0;
 	for (int j = 0; j < col_tam; j++)
 	{
+		printf("\ntest 1\n");
+		while (no != NULL)
+		{
+			if (no->dados.lin == i && no->dados.col == i)
+			{
+				i++;
+				break;
+			}
+			printf("\ntest 2\n");
+			no = no->prox;
+		}
+
 		if (no != NULL && no->dados.lin == j && no->dados.col == j)
 		{
 			printf(" %.2f ", no->dados.dado);

@@ -61,50 +61,66 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param)
 	else
 	{
 		// insere no inicio
-		if ((dado_param.lin <= li->inicio->dados.lin) && (dado_param.col < li->inicio->dados.col))
+		if (dado_param.lin <= li->inicio->dados.lin)
 		{
+			if (dado_param.lin < li->inicio->dados.lin)
+			{
+				no->prox = li->inicio;
+				li->inicio = no;
+			}
+			else
+			{
+				if (dado_param.col < li->inicio->dados.col)
+				{
+					no->prox = li->inicio;
+					li->inicio = no;
+				}
+			}
 			printf("\n\ntest 1\n\n");
-			no->prox = li->inicio;
-			li->inicio = no;
 		}
-		//
-		// else if (dado_param.lin == li->inicio->dados.lin && dado_param.col < li->inicio->dados.col)
-		// {
-		// 	no->prox = li->inicio;
-		// 	li->inicio = no;
-		// }
-		// else if(dado_param.lin == li->inicio->dados.lin && dado_param.col > li->inicio->dados.col){
-		// 	if(li->inicio->prox == li->fim){
-		// 		// aux = li->fim
-		// 	}
-		// 	no->prox = li->inicio->prox;
-		// 	li->inicio->prox = no;
-		// 	//ver se ele eh ultimo ou esta no meio
-
-		// }
 
 		//insere no fim
-		else if (dado_param.lin >= li->fim->dados.lin && dado_param.col > li->fim->dados.col)
+		else if (dado_param.lin >= li->fim->dados.lin)
 		{
+			if (dado_param.lin > li->fim->dados.lin)
+			{
+				no->prox = NULL;
+				li->fim->prox = no;
+				li->fim = no;
+			}
+			else
+			{
+				if (dado_param.col > li->fim->dados.col)
+				{
+					no->prox = NULL;
+					li->fim->prox = no;
+					li->fim = no;
+				}
+			}
 			printf("\n\ntest 2\n\n");
-			no->prox = NULL;
-			li->fim->prox = no;
-			li->fim = no;
 		}
-		//
+		// insere no meio
 		else
 		{
 			printf("\n\ntest 3\n\n");
 			Elem *ant, *atual = li->inicio;
-			//
-			while (atual != NULL && atual->dados.lin <= dado_param.lin && atual->dados.col < dado_param.col)
+			//&& (atual->dados.lin <= dado_param.lin && atual->dados.col < dado_param.col)
+			while (atual != NULL)
 			{
-				//if(atual->dados.lin )
+				if (atual->dados.lin >= dado_param.lin)
+				{
+					if (atual->dados.col > dado_param.col)
+					{
+						break;
+					}
+					printf("\n\n\nTest6\n\n\n");
+				}
+
 				ant = atual;
 				atual = atual->prox;
 				printf("Test 5\n");
 			}
-			if(atual == li->inicio)
+			if (atual == li->inicio)
 			{
 				no->prox = li->inicio;
 				li->inicio = no;
@@ -124,55 +140,187 @@ bool remove_matriz_esp(Lista_Mat_Esp *li, int lin, int col)
 	if (li == NULL)
 		return 0;
 
-	Elem *ant, *atual = li->inicio;
-	while (atual != NULL && (atual->dados.col != col && atual->dados.lin != lin))
+	//remove do inicio
+	if (lin == li->inicio->dados.lin && col == li->inicio->dados.col)
 	{
-		ant = atual;
-		atual = atual->prox;
-	}
-
-	if (atual == NULL)
-		return 0;
-
-	else if (atual == li->inicio)
-	{
-		if (li->inicio->prox == NULL)
+		//remove e a lista fica vazia
+		if (li->inicio == li->fim)
 		{
+			free(li->inicio);
 			li->inicio = NULL;
 			li->fim = NULL;
-			free(atual);
 			return 1;
 		}
+		//remove e ainda tem elementos
 		else
 		{
-			li->inicio = atual->prox;
-			free(atual);
+			Elem *aux = li->inicio;
+			li->inicio = li->inicio->prox;
+			free(aux);
 			return 1;
 		}
 	}
+
+	//remove do meio e fim
 	else
 	{
-		if (atual->prox == NULL)
+		Elem *ant, *atual = li->inicio;
+		// && (atual->dados.col != col && atual->dados.lin != lin)
+		while (atual != NULL)
 		{
-			li->fim = ant;
-			ant->prox = NULL;
-			free(atual);
-			return 1;
+			//sai do loop se achar
+			if (atual->dados.lin == lin)
+			{
+				if (atual->dados.col == col)
+					break;
+			}
+			// sai da funcao se passar da linha e col informada
+			else if (atual->dados.lin >= lin)
+			{
+				if (atual->dados.lin > lin)
+					return 0;
+				else
+				{
+					if (atual->dados.col > col)
+					{
+						return 0;
+					}
+				}
+			}
+
+			ant = atual;
+			atual = atual->prox;
 		}
+
+		// nao achou
+		if (atual == NULL)
+			return 0;
+
+		// else if (atual == li->inicio)
+		// {
+		// 	if (li->inicio->prox == NULL)
+		// 	{
+		// 		li->inicio = NULL;
+		// 		li->fim = NULL;
+		// 		free(atual);
+		// 		return 1;
+		// 	}
+		// 	else
+		// 	{
+		// 		li->inicio = atual->prox;
+		// 		free(atual);
+		// 		return 1;
+		// 	}
+		// }
 		else
 		{
-			ant->prox = atual->prox;
-			free(atual);
-			return 1;
+			//remove do fim
+			if (atual->prox == NULL)
+			{
+				li->fim = ant;
+				ant->prox = NULL;
+				free(atual);
+				return 1;
+			}
+			//remove do meio
+			else
+			{
+				ant->prox = atual->prox;
+				free(atual);
+				return 1;
+			}
 		}
 	}
 }
 
-// struct nodo *test(Lista_Mat_Esp *li)
-// {
-// 	struct nodo *aux = li->inicio->dados;
-// 	return aux;
-// }
+bool check_campo_matriz_esp(Lista_Mat_Esp *li, int lin, int col)
+{
+	if (li == NULL)
+		return 0;
+
+	if (li->inicio == NULL)
+		return 0;
+	//
+	if (lin == li->inicio->dados.lin && col == li->inicio->dados.col)
+	{
+		//remove e a lista fica vazia
+		if (li->inicio == li->fim)
+		{
+			return 1;
+		}
+		//remove e ainda tem elementos
+		else
+		{
+			return 1;
+		}
+	}
+
+	//remove do meio e fim
+	else
+	{
+		Elem *ant, *atual = li->inicio;
+		// && (atual->dados.col != col && atual->dados.lin != lin)
+		while (atual != NULL)
+		{
+			//sai do loop se achar
+			if (atual->dados.lin == lin)
+			{
+				if (atual->dados.col == col)
+					break;
+			}
+			// sai da funcao se passar da linha e col informada
+			else if (atual->dados.lin >= lin)
+			{
+				if (atual->dados.lin > lin)
+					return 0;
+				else
+				{
+					if (atual->dados.col > col)
+					{
+						return 0;
+					}
+				}
+			}
+
+			ant = atual;
+			atual = atual->prox;
+		}
+
+		// nao achou
+		if (atual == NULL)
+			return 0;
+
+		// else if (atual == li->inicio)
+		// {
+		// 	if (li->inicio->prox == NULL)
+		// 	{
+		// 		li->inicio = NULL;
+		// 		li->fim = NULL;
+		// 		free(atual);
+		// 		return 1;
+		// 	}
+		// 	else
+		// 	{
+		// 		li->inicio = atual->prox;
+		// 		free(atual);
+		// 		return 1;
+		// 	}
+		// }
+		else
+		{
+			//remove do fim
+			if (atual->prox == NULL)
+			{
+				return 1;
+			}
+			//remove do meio
+			else
+			{
+				return 1;
+			}
+		}
+	}
+}
 
 void imprime_mat_esparsa(Lista_Mat_Esp *li, int lin_tam, int col_tam)
 {

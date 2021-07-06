@@ -48,14 +48,23 @@ void add_dados_matriz_esp(Lista_Mat *lm)
 			printf("informe dado: \n");
 			scanf("%f", &aux_mat_esp.dado);
 
-			printf("HUSHUHDUHAS linha %d coluna d% dado %.2f", aux_mat_esp.lin, aux_mat_esp.col, aux_mat_esp.dado);
+			// printf("HUSHUHDUHAS linha %d coluna d% dado %.2f", aux_mat_esp.lin, aux_mat_esp.col, aux_mat_esp.dado);
+
+			// printf("\n\n\ncheck %d\n\n", check_campo_matriz_esp(mat.mat_esp, aux_mat_esp.lin, aux_mat_esp.col));
 
 			if (aux_mat_esp.lin >= 0 && aux_mat_esp.col >= 0 && aux_mat_esp.dado > 0)
 			{
-				if (insere_matriz_esp(mat.mat_esp, aux_mat_esp))
-					printf("Sucesso inserir dados na matriz esparsa.\n");
+				if (!check_campo_matriz_esp(mat.mat_esp, aux_mat_esp.lin, aux_mat_esp.col))
+				{
+					if (insere_matriz_esp(mat.mat_esp, aux_mat_esp))
+						printf("Sucesso inserir dados na matriz esparsa.\n");
+					else
+						printf("Erro ao inserir dados na matriz esparsa.\n");
+				}
 				else
-					printf("Erro ao inserir dados na matriz esparsa.\n");
+				{
+					printf("O campo ja possui dado\n");
+				}
 			}
 			// imprime_matriz_esparsa(mat.mat_esp);
 		} while (aux_mat_esp.lin < 0 || aux_mat_esp.col < 0);
@@ -118,6 +127,37 @@ void rm_matriz_esp(Lista_Mat *lm)
 	}
 }
 
+// void test_check(Lista_Mat *lm)
+// {
+// 	int lin, col;
+// 	short int opc;
+// 	Matriz mat;
+// 	imprime_matrizes(lm);
+// 	printf("Escolha a matriz: \n");
+// 	scanf("%hd", &opc);
+// 	if (busca_matriz(lm, opc, &mat))
+// 	{
+// 		imprime_mat_esparsa(mat.mat_esp, mat.lin_tam, mat.col_tam);
+// 		do
+// 		{
+// 			printf("Informe a linha da matriz: \n");
+// 			scanf("%d", &lin);
+// 			printf("Informe a coluna da matriz: \n");
+// 			scanf("%d", &col);
+
+// 			if ((col >= 0 && col < mat.col_tam) && (lin >= 0 && lin < mat.col_tam))
+// 			// if (1)
+// 			{
+// 				printf("\n\n\n check %d\n", check_campo_matriz_esp(mat.mat_esp, lin, col));
+// 			}
+// 		} while ((col < 0 || col > mat.col_tam) || (lin < 0 || lin > mat.lin_tam));
+// 	}
+// 	else
+// 	{
+// 		printf("Matriz nao encontrado.\n");
+// 	}
+// }
+
 void imprime_mat_esp(Lista_Mat *lm)
 {
 	Matriz mat;
@@ -169,40 +209,6 @@ void main()
 
 	li = cria_lista_mat();
 
-	// inicio da area de teste
-	// test = insere_matriz(li, mat);
-	// test = insere_matriz(li, mat);
-	// test = insere_matriz(li, mat);
-	// test = insere_matriz(li, mat);
-	// test = insere_matriz(li, mat);
-	// test = insere_matriz(li, mat);
-
-	// li2 = cria_matriz_esp();
-
-	// nod.col = 12;
-	// nod.dado = 13;
-	// printf("nod %d\n", nod.col);
-	// test = insere_matriz_esp(li2, nod);
-
-	// check point 1
-	// printf("busca matriz: %d\n", busca_matriz(li, 1, &mat));
-	// mat.mat_esp = cria_matriz_esp();
-	// if (insere_matriz_esp(mat.mat_esp, nod))
-	// {
-	// 	printf("Adicionado com sucesso na matriz esparsa.\n");
-	// }
-	// else
-	// {
-	// 	printf("Erro o adicionar na matriz esparsa.\n");
-	// }
-	// imprime_matriz_esparsa(mat.mat_esp);
-	// libera_matriz_esp(mat.mat_esp);
-	// imprime_matriz_esparsa(li2);
-	// printf("AAAAAA\n");
-	// // imprime_matriz_esparsa(li2);
-
-	// imprime_matrizes(li);
-	// fim da area de test
 	do
 	{
 		printf("0 - Sair\n");
@@ -237,6 +243,9 @@ void main()
 			break;
 		case 7:
 			imprime_mat_esp_diagonal(li);
+			break;
+		case 8:
+
 			break;
 		default:
 			break;

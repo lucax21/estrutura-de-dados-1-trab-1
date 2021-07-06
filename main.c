@@ -213,7 +213,7 @@ void main()
 		printf("5 - Remover dado na matriz esparsa.\n");
 		printf("6 - Imprime matriz esparsa.\n");
 		printf("7 - Imprime diagonal principal da matriz esparsa.\n");
-		scanf("%d", &op);
+		scanf("%hd", &op);
 
 		switch (op)
 		{

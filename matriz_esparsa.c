@@ -61,7 +61,7 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param)
 	else
 	{
 		// insere no inicio
-		if ((dado_param.lin < li->inicio->dados.lin) && (dado_param.col < li->inicio->dados.col))
+		if ((dado_param.lin <= li->inicio->dados.lin) && (dado_param.col < li->inicio->dados.col))
 		{
 			printf("\n\ntest 1\n\n");
 			no->prox = li->inicio;
@@ -84,7 +84,7 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param)
 		// }
 
 		//insere no fim
-		else if (dado_param.lin > li->fim->dados.lin && dado_param.col > li->fim->dados.col)
+		else if (dado_param.lin >= li->fim->dados.lin && dado_param.col > li->fim->dados.col)
 		{
 			printf("\n\ntest 2\n\n");
 			no->prox = NULL;
@@ -97,11 +97,18 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param)
 			printf("\n\ntest 3\n\n");
 			Elem *ant, *atual = li->inicio;
 			//
-			while (atual != NULL && atual->dados.lin < dado_param.lin && atual->dados.col < dado_param.col)
+			while (atual != NULL && atual->dados.lin <= dado_param.lin && atual->dados.col < dado_param.col)
 			{
+				//if(atual->dados.lin )
 				ant = atual;
 				atual = atual->prox;
 				printf("Test 5\n");
+			}
+			if(atual == li->inicio)
+			{
+				no->prox = li->inicio;
+				li->inicio = no;
+				return 1;
 			}
 			printf("\n\ntest 4  %d \n\n", (atual == NULL));
 			no->prox = ant->prox;

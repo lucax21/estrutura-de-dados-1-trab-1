@@ -61,7 +61,7 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param)
 	else
 	{
 		// insere no inicio
-		if (dado_param.lin <= li->inicio->dados.lin)
+		if (dado_param.lin < li->inicio->dados.lin)
 		{
 			if (dado_param.lin < li->inicio->dados.lin)
 			{
@@ -80,7 +80,7 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param)
 		}
 
 		//insere no fim
-		else if (dado_param.lin >= li->fim->dados.lin)
+		else if (dado_param.lin > li->fim->dados.lin)
 		{
 			if (dado_param.lin > li->fim->dados.lin)
 			{
@@ -322,6 +322,28 @@ bool check_campo_matriz_esp(Lista_Mat_Esp *li, int lin, int col)
 	}
 }
 
+bool soma_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_result)
+{
+	if (l1->inicio == NULL || l2->inicio == NULL)
+		return 0;
+	Elem *no1 = l1->inicio;
+	Elem *no2 = l2->inicio;
+
+	// while (no1 != NULL)
+	// {
+
+	// 	while (no2 != NULL)
+	// 	{
+	// 		if (no1->dados.lin)
+	// 			no2 = no2->prox;
+	// 	}
+
+	// 	no1 = no1->prox;
+	// }
+
+	return 1;
+}
+
 void imprime_mat_esparsa(Lista_Mat_Esp *li, int lin_tam, int col_tam)
 {
 
@@ -358,23 +380,28 @@ void test2(Lista_Mat_Esp *li)
 void imprime_mat_esparsa_diagonal(Lista_Mat_Esp *li, int lin_tam, int col_tam)
 {
 	Elem *no = li->inicio;
-	int i = 0;
 	for (int j = 0; j < col_tam; j++)
 	{
-		printf("\ntest 1\n");
-		while (no != NULL)
+
+		while (no != NULL && no->dados.lin <= j && no->dados.col <= j)
 		{
-			if (no->dados.lin == i && no->dados.col == i)
+			// printf("\ntest 1\n");
+			if (no->dados.lin == j && no->dados.col == j)
 			{
-				i++;
+				// printf("\ntest 3\n");
+				// no = no->prox;
 				break;
 			}
-			printf("\ntest 2\n");
-			no = no->prox;
+			else
+			{
+				// printf("\ntest 2\n");
+				no = no->prox;
+			}
 		}
-
+		// printf("\ntest 5\n");
 		if (no != NULL && no->dados.lin == j && no->dados.col == j)
 		{
+			// printf("\ntest 4\n");
 			printf(" %.2f ", no->dados.dado);
 			no = no->prox;
 		}

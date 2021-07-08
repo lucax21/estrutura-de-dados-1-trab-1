@@ -83,6 +83,22 @@ bool insere_matriz(Lista_Mat *li, struct matriz mat)
 	return 1;
 }
 
+bool insere_matriz_fim(Lista_Mat *li, struct matriz mat)
+{
+	if (li == NULL)
+		return 0;
+
+	Elem *no = (Elem *)malloc(sizeof(Elem));
+	if (no == NULL)
+		return 0;
+
+	no->dados = mat;
+	no->prox = NULL;
+	li->final->prox = no;
+	li->final = no;
+	return 1;
+}
+
 bool remove_matriz(Lista_Mat *li, short int id_mat)
 {
 	if (li == NULL)

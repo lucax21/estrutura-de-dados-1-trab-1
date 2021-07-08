@@ -22,6 +22,8 @@ bool remove_matriz_esp(Lista_Mat_Esp *li, int lin, int col);
 
 bool check_campo_matriz_esp(Lista_Mat_Esp *li, int lin, int col);
 
+bool soma_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_result);
+
 // struct nodo *test(Lista_Mat_Esp *li);
 
 void imprime_mat_esparsa(Lista_Mat_Esp *li, int lin_tam, int col_tam);

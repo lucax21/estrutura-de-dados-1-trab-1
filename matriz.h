@@ -19,6 +19,8 @@ void libera_lista_mat(Lista_Mat *li);
 
 bool insere_matriz(Lista_Mat *li, struct matriz mat);
 
+bool insere_matriz_fim(Lista_Mat *li, struct matriz mat);
+
 bool vazia_matriz(Lista_Mat *li);
 
 bool remove_matriz(Lista_Mat *li, short int id_mat);

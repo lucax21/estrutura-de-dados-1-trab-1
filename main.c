@@ -34,7 +34,7 @@ void add_dados_matriz_esp(Lista_Mat *lm)
 	Matriz_esparsa aux_mat_esp;
 	short int opc;
 
-	printf("Qual matriz voce deseja inserir dados(informe o numero)");
+	printf("Qual matriz voce deseja inserir dados(informe o numero)\n");
 	imprime_matrizes(lm);
 	scanf("%hd", &opc);
 	if (busca_matriz(lm, opc, &mat))
@@ -127,37 +127,6 @@ void rm_matriz_esp(Lista_Mat *lm)
 	}
 }
 
-// void test_check(Lista_Mat *lm)
-// {
-// 	int lin, col;
-// 	short int opc;
-// 	Matriz mat;
-// 	imprime_matrizes(lm);
-// 	printf("Escolha a matriz: \n");
-// 	scanf("%hd", &opc);
-// 	if (busca_matriz(lm, opc, &mat))
-// 	{
-// 		imprime_mat_esparsa(mat.mat_esp, mat.lin_tam, mat.col_tam);
-// 		do
-// 		{
-// 			printf("Informe a linha da matriz: \n");
-// 			scanf("%d", &lin);
-// 			printf("Informe a coluna da matriz: \n");
-// 			scanf("%d", &col);
-
-// 			if ((col >= 0 && col < mat.col_tam) && (lin >= 0 && lin < mat.col_tam))
-// 			// if (1)
-// 			{
-// 				printf("\n\n\n check %d\n", check_campo_matriz_esp(mat.mat_esp, lin, col));
-// 			}
-// 		} while ((col < 0 || col > mat.col_tam) || (lin < 0 || lin > mat.lin_tam));
-// 	}
-// 	else
-// 	{
-// 		printf("Matriz nao encontrado.\n");
-// 	}
-// }
-
 void imprime_mat_esp(Lista_Mat *lm)
 {
 	Matriz mat;
@@ -188,8 +157,6 @@ void imprime_mat_esp_diagonal(Lista_Mat *lm)
 	scanf("%hd", &opc);
 	if (busca_matriz(lm, opc, &mat))
 	{
-		// imprime_matriz_esp(&mat);
-		// test2(mat.mat_esp);
 		imprime_mat_esparsa_diagonal(mat.mat_esp, mat.lin_tam, mat.col_tam);
 	}
 	else
@@ -198,6 +165,43 @@ void imprime_mat_esp_diagonal(Lista_Mat *lm)
 	}
 }
 
+void operacoes_mat(Lista_Mat *lm)
+{
+	Matriz mat1, mat2, mat_result;
+	short int opc;
+	imprime_matrizes(lm);
+	printf("Escolha a primeira matriz\n");
+	scanf("%hd", &opc);
+	if (busca_matriz(lm, opc, &mat1))
+	{
+	}
+	else
+	{
+		printf("Matriz nao encontrado.\n");
+	}
+	printf("Escolha a segunda matriz\n");
+	scanf("%hd", &opc);
+	if (busca_matriz(lm, opc, &mat2))
+	{
+	}
+	else
+	{
+		printf("Matriz nao encontrado.\n");
+	}
+
+	//inicializa mat esparsa
+	mat_result.mat_esp = cria_matriz_esp;
+
+	//insere na lista de matrizes a matriz result
+	// if (insere_matriz_fim(lm, mat_result))
+	// {
+	// 	printf("Matriz adicionado com sucesso.\n");
+	// }
+	// else
+	// {
+	// 	printf("Erro ao adicionar metriz.\n");
+	// }
+}
 void main()
 {
 	Lista_Mat *li = NULL;

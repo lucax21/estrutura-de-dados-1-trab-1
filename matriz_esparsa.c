@@ -57,6 +57,7 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param)
 		li->inicio = no;
 		no->prox = NULL;
 		li->fim = no;
+		return 1;
 	}
 	else
 	{
@@ -111,11 +112,15 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param)
 				{
 					if (atual->dados.col > dado_param.col)
 					{
+						printf("\n\n\nTest7\n\n\n");
 						break;
 					}
+					else if (atual->dados.lin > dado_param.lin)
+						break;
 					printf("\n\n\nTest6\n\n\n");
 				}
 
+				//31 11 40
 				ant = atual;
 				atual = atual->prox;
 				printf("Test 5\n");
@@ -243,19 +248,17 @@ bool check_campo_matriz_esp(Lista_Mat_Esp *li, int lin, int col)
 	//
 	if (lin == li->inicio->dados.lin && col == li->inicio->dados.col)
 	{
-		//remove e a lista fica vazia
 		if (li->inicio == li->fim)
 		{
 			return 1;
 		}
-		//remove e ainda tem elementos
+
 		else
 		{
 			return 1;
 		}
 	}
 
-	//remove do meio e fim
 	else
 	{
 		Elem *ant, *atual = li->inicio;
@@ -289,31 +292,13 @@ bool check_campo_matriz_esp(Lista_Mat_Esp *li, int lin, int col)
 		// nao achou
 		if (atual == NULL)
 			return 0;
-
-		// else if (atual == li->inicio)
-		// {
-		// 	if (li->inicio->prox == NULL)
-		// 	{
-		// 		li->inicio = NULL;
-		// 		li->fim = NULL;
-		// 		free(atual);
-		// 		return 1;
-		// 	}
-		// 	else
-		// 	{
-		// 		li->inicio = atual->prox;
-		// 		free(atual);
-		// 		return 1;
-		// 	}
-		// }
 		else
 		{
-			//remove do fim
+
 			if (atual->prox == NULL)
 			{
 				return 1;
 			}
-			//remove do meio
 			else
 			{
 				return 1;

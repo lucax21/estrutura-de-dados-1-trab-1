@@ -164,44 +164,133 @@ void imprime_mat_esp_diagonal(Lista_Mat *lm)
 		printf("Matriz nao encontrado.\n");
 	}
 }
+void menu_operacoes_mat_esp()
+{
+	printf("0 - Sair\n");
+	printf("1 - Somar matrizes\n");
+	printf("2 - Subtrair matrizes\n");
+	printf("3 - Mulplicar matrizes\n");
+}
 
 void operacoes_mat(Lista_Mat *lm)
 {
 	Matriz mat1, mat2, mat_result;
+	short int opc, opc_menu;
+
+	//inicializa mat esparsa
+	mat_result.mat_esp = cria_matriz_esp();
+	mat_result.col_tam = 0;
+	mat_result.lin_tam = 0;
+
+	do
+	{
+		menu_operacoes_mat_esp();
+		scanf("%hd", &opc_menu);
+
+		imprime_matrizes(lm);
+		printf("Escolha a primeira matriz\n");
+		scanf("%hd", &opc);
+		if (!busca_matriz(lm, opc, &mat1))
+		{
+			printf("Matriz nao encontrado.\n");
+		}
+		printf("Escolha a segunda matriz\n");
+		scanf("%hd", &opc);
+		if (!busca_matriz(lm, opc, &mat2))
+		{
+			printf("Matriz nao encontrado.\n");
+		}
+
+		if (mat1.lin_tam == mat2.lin_tam && mat1.col_tam == mat2.col_tam)
+		{
+			if (mat_result.lin_tam == 0 && mat_result.col_tam == 0)
+			{
+				mat_result.lin_tam = mat1.lin_tam;
+				mat_result.col_tam = mat1.col_tam;
+			}
+
+			switch (opc_menu)
+			{
+			case 1:
+				if (soma_duas_matrizes(mat1.mat_esp, mat2.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam))
+				{
+					printf("Sucesso ao somar as matrizes\n");
+				}
+				else
+				{
+					printf("Erro ao somar as matrizes\n");
+				}
+				break;
+			case 2:
+				if (sub_duas_matrizes(mat1.mat_esp, mat2.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam))
+				{
+					printf("Sucesso ao somar as matrizes\n");
+				}
+				else
+				{
+					printf("Erro ao somar as matrizes\n");
+				}
+				break;
+			default:
+				break;
+			}
+		}
+		else
+		{
+			printf("As matrizes tem tamanhos diferentes\n");
+		}
+		// imprime_mat_esparsa(mat.mat_esp, mat.lin_tam, mat.col_tam)
+		imprime_mat_esparsa(mat_result.mat_esp, mat_result.lin_tam, mat_result.col_tam);
+
+	} while (opc);
+
+	// insere na lista de matrizes a matriz result
+	if (insere_matriz_fim(lm, mat_result))
+	{
+		printf("Matriz adicionado com sucesso.\n");
+	}
+	else
+	{
+		printf("Erro ao adicionar metriz.\n");
+	}
+}
+
+void matriz_transposta(Lista_Mat *lm)
+{
+	Matriz mat, mat_result;
 	short int opc;
+
+	mat_result.mat_esp = cria_matriz_esp();
+
 	imprime_matrizes(lm);
 	printf("Escolha a primeira matriz\n");
 	scanf("%hd", &opc);
-	if (busca_matriz(lm, opc, &mat1))
-	{
-	}
-	else
+	if (!busca_matriz(lm, opc, &mat))
 	{
 		printf("Matriz nao encontrado.\n");
 	}
-	printf("Escolha a segunda matriz\n");
-	scanf("%hd", &opc);
-	if (busca_matriz(lm, opc, &mat2))
+	if (gera_matriz_transposta(mat.mat_esp, mat_result.mat_esp))
 	{
+		printf("Sucesso ao criar martiz transposta\n");
 	}
 	else
 	{
-		printf("Matriz nao encontrado.\n");
+		printf("Erro ao criar matriz transposta\n");
 	}
 
-	//inicializa mat esparsa
-	mat_result.mat_esp = cria_matriz_esp;
+	mat_result.lin_tam = mat.lin_tam;
+	mat_result.col_tam = mat.col_tam;
 
-	//insere na lista de matrizes a matriz result
-	// if (insere_matriz_fim(lm, mat_result))
-	// {
-	// 	printf("Matriz adicionado com sucesso.\n");
-	// }
-	// else
-	// {
-	// 	printf("Erro ao adicionar metriz.\n");
-	// }
+	if (insere_matriz_fim(lm, mat_result))
+	{
+		printf("Sucesso ao adicionar a matriz transposta na lista de matrizes\n");
+	}
+	else
+	{
+		printf("Erro ao adicionar a matriz transposta na lista de matrizes\n");
+	}
 }
+
 void main()
 {
 	Lista_Mat *li = NULL;
@@ -223,6 +312,8 @@ void main()
 		printf("5 - Remover dado na matriz esparsa.\n");
 		printf("6 - Imprime matriz esparsa.\n");
 		printf("7 - Imprime diagonal principal da matriz esparsa.\n");
+		printf("8 - Operacoes com matrizes\n");
+		printf("9 - Gerar matriz transposta\n");
 		scanf("%hd", &op);
 
 		switch (op)
@@ -249,7 +340,10 @@ void main()
 			imprime_mat_esp_diagonal(li);
 			break;
 		case 8:
-
+			operacoes_mat(li);
+			break;
+		case 9:
+			matriz_transposta(li);
 			break;
 		default:
 			break;

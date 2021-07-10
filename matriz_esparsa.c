@@ -322,24 +322,141 @@ bool check_campo_matriz_esp(Lista_Mat_Esp *li, int lin, int col)
 	}
 }
 
-bool soma_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_result)
+bool soma_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_result, int lin, int col)
 {
 	if (l1->inicio == NULL || l2->inicio == NULL)
 		return 0;
 	Elem *no1 = l1->inicio;
 	Elem *no2 = l2->inicio;
+	int i, j;
+	float soma1, soma2, soma3;
+	Matriz_esparsa mat_esq;
 
-	// while (no1 != NULL)
-	// {
+	// printf("lin %d col %d\n", lin, col);
+	for (i = 0; i < lin; i++)
+	{
+		for (j = 0; j < col; j++)
+		{
+			soma1 = soma2 = soma3 = 0;
 
-	// 	while (no2 != NULL)
-	// 	{
-	// 		if (no1->dados.lin)
-	// 			no2 = no2->prox;
-	// 	}
+			printf("\ntest1\n");
+			for (no1 = l1->inicio; no1 != NULL; no1 = no1->prox)
+			{
+				if ((no1->dados.lin == i) && (no1->dados.col == j))
+				{
+					soma1 = no1->dados.dado;
+				}
+			}
+			for (no2 = l2->inicio; no2 != NULL; no2 = no2->prox)
+			{
+				if ((no2->dados.lin == i) && (no2->dados.col == j))
+				{
+					soma2 = no2->dados.dado;
+				}
+			}
+			soma3 = soma1 + soma2;
+			mat_esq.lin = i;
+			mat_esq.col = j;
+			mat_esq.dado = soma3;
+			if (soma3)
+			{
+				if (!check_campo_matriz_esp(l_result, i, j))
+				{
+					insere_matriz_esp(l_result, mat_esq);
+				}
+				else
+				{
+					Elem *no3 = l_result->inicio;
+					while (no3->dados.lin != i && no3->dados.col != j)
+					{
+						no3 = no3->prox;
+					}
+					no3->dados.dado += soma3;
+				}
+			}
+		}
+	}
 
-	// 	no1 = no1->prox;
-	// }
+	return 1;
+}
+
+bool sub_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_result, int lin, int col)
+{
+	if (l1->inicio == NULL || l2->inicio == NULL)
+		return 0;
+	Elem *no1 = l1->inicio;
+	Elem *no2 = l2->inicio;
+	int i, j;
+	float soma1, soma2, soma3;
+	Matriz_esparsa mat_esq;
+
+	// printf("lin %d col %d\n", lin, col);
+	for (i = 0; i < lin; i++)
+	{
+		for (j = 0; j < col; j++)
+		{
+			soma1 = soma2 = soma3 = 0;
+
+			printf("\ntest1\n");
+			for (no1 = l1->inicio; no1 != NULL; no1 = no1->prox)
+			{
+				if ((no1->dados.lin == i) && (no1->dados.col == j))
+				{
+					soma1 = no1->dados.dado;
+				}
+			}
+			for (no2 = l2->inicio; no2 != NULL; no2 = no2->prox)
+			{
+				if ((no2->dados.lin == i) && (no2->dados.col == j))
+				{
+					soma2 = no2->dados.dado;
+					soma2 = soma2 * -1;
+				}
+			}
+			soma3 = soma1 + soma2;
+			mat_esq.lin = i;
+			mat_esq.col = j;
+			mat_esq.dado = soma3;
+			if (soma3)
+			{
+				if (!check_campo_matriz_esp(l_result, i, j))
+				{
+					insere_matriz_esp(l_result, mat_esq);
+				}
+				else
+				{
+					Elem *no3 = l_result->inicio;
+					while (no3->dados.lin != i && no3->dados.col != j)
+					{
+						no3 = no3->prox;
+					}
+					no3->dados.dado += soma3;
+				}
+			}
+		}
+	}
+
+	return 1;
+}
+
+bool gera_matriz_transposta(Lista_Mat_Esp *li, Lista_Mat_Esp *l_result)
+{
+	if (li == NULL || li->inicio == NULL)
+		return 0;
+
+	Elem *no1;
+	Matriz_esparsa mat;
+
+	no1 = li->inicio;
+
+	while (no1 != NULL)
+	{
+		mat.col = no1->dados.lin;
+		mat.lin = no1->dados.col;
+		mat.dado = no1->dados.dado;
+		insere_matriz_esp(l_result, mat);
+		no1 = no1->prox;
+	}
 
 	return 1;
 }

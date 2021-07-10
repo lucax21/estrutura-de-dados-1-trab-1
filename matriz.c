@@ -92,10 +92,18 @@ bool insere_matriz_fim(Lista_Mat *li, struct matriz mat)
 	if (no == NULL)
 		return 0;
 
+	int id_aux;
+
 	no->dados = mat;
+	id_aux = li->final->dados.id;
+	id_aux++;
+
+	no->dados.id = id_aux;
+
 	no->prox = NULL;
 	li->final->prox = no;
 	li->final = no;
+
 	return 1;
 }
 

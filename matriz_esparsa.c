@@ -413,6 +413,7 @@ bool sub_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_re
 					soma2 = soma2 * -1;
 				}
 			}
+			// ma - mb = ma + (-mb)
 			soma3 = soma1 + soma2;
 			mat_esq.lin = i;
 			mat_esq.col = j;
@@ -437,6 +438,64 @@ bool sub_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_re
 	}
 
 	return 1;
+}
+
+bool multi_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_result, int lin_a, int col_a, int lin_b, int col_b)
+{
+	if (l1->inicio == NULL || l2->inicio == NULL)
+		return 0;
+
+	Elem *no1 = l1->inicio;
+	Elem *no2 = l2->inicio;
+	float vl_mat1, vl_mat2, result;
+	Matriz_esparsa mat_esq;
+
+	for (int i = 0; i < lin_a; i++)
+	{
+		for (int j = 0; j < col_b; j++)
+		{
+			result = 0;
+			vl_mat1 = 0;
+			vl_mat2 = 0;
+			for (int k = 0; k < lin_a; k++)
+			{
+				for (no1 = l1->inicio; no1 != NULL; no1 = no1->prox)
+				{
+					if ((no1->dados.lin == i) && (no1->dados.col == k))
+					{
+						vl_mat1 = no1->dados.dado;
+					}
+				}
+				for (no2 = l2->inicio; no2 != NULL; no2 = no2->prox)
+				{
+					if ((no2->dados.lin == k) && (no2->dados.col == j))
+					{
+						vl_mat2 = no2->dados.dado;
+					}
+				}
+				result += vl_mat1 * vl_mat2;
+			}
+			mat_esq.lin = i;
+			mat_esq.col = j;
+			mat_esq.dado = result;
+			if (result)
+			{
+				if (!check_campo_matriz_esp(l_result, i, j))
+				{
+					insere_matriz_esp(l_result, mat_esq);
+				}
+				else
+				{
+					Elem *no3 = l_result->inicio;
+					while (no3->dados.lin != i && no3->dados.col != j)
+					{
+						no3 = no3->prox;
+					}
+					no3->dados.dado += result;
+				}
+			}
+		}
+	}
 }
 
 bool gera_matriz_transposta(Lista_Mat_Esp *li, Lista_Mat_Esp *l_result)
@@ -470,14 +529,13 @@ void imprime_mat_esparsa(Lista_Mat_Esp *li, int lin_tam, int col_tam)
 	{
 		for (int j = 0; j < col_tam; j++)
 		{
-
 			if (no != NULL && no->dados.lin == i && no->dados.col == j)
 			{
-				printf(" %.2f ", no->dados.dado);
+				printf(" \t%0.2f ", no->dados.dado);
 				no = no->prox;
 			}
 			else
-				printf(" 0 ");
+				printf(" \t%0.2f ", 0.0F);
 		}
 		printf("\n");
 	}

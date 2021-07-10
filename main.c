@@ -12,11 +12,11 @@ void add_matriz(Lista_Mat *lm)
 	Matriz mat;
 	do
 	{
-		printf("Informe a quantidade de colunas da matriz.");
-		scanf("%d", &mat.col_tam);
-		printf("Informe a quantidade de linhas da matriz.");
+		printf("Informe a quantidade de linhas da matriz: ");
 		scanf("%d", &mat.lin_tam);
-	} while (mat.col_tam < 0 || mat.lin_tam < 0);
+		printf("Informe a quantidade de colunas da matriz: ");
+		scanf("%d", &mat.col_tam);
+	} while (mat.col_tam <= 0 || mat.lin_tam <= 0);
 
 	if (insere_matriz(lm, mat))
 	{
@@ -39,35 +39,40 @@ void add_dados_matriz_esp(Lista_Mat *lm)
 	scanf("%hd", &opc);
 	if (busca_matriz(lm, opc, &mat))
 	{
+		opc = 1;
 		do
 		{
-			printf("informe coluna do dado: \n");
-			scanf("%d", &aux_mat_esp.col);
-			printf("informe linha do dado: \n");
-			scanf("%d", &aux_mat_esp.lin);
-			printf("informe dado: \n");
-			scanf("%f", &aux_mat_esp.dado);
 
-			// printf("HUSHUHDUHAS linha %d coluna d% dado %.2f", aux_mat_esp.lin, aux_mat_esp.col, aux_mat_esp.dado);
-
-			// printf("\n\n\ncheck %d\n\n", check_campo_matriz_esp(mat.mat_esp, aux_mat_esp.lin, aux_mat_esp.col));
-
-			if (aux_mat_esp.lin >= 0 && aux_mat_esp.col >= 0 && aux_mat_esp.dado > 0)
+			if (opc)
 			{
-				if (!check_campo_matriz_esp(mat.mat_esp, aux_mat_esp.lin, aux_mat_esp.col))
+				do
 				{
-					if (insere_matriz_esp(mat.mat_esp, aux_mat_esp))
-						printf("Sucesso inserir dados na matriz esparsa.\n");
-					else
-						printf("Erro ao inserir dados na matriz esparsa.\n");
-				}
-				else
-				{
-					printf("O campo ja possui dado\n");
-				}
+					printf("informe linha do dado: \n");
+					scanf("%d", &aux_mat_esp.lin);
+					printf("informe coluna do dado: \n");
+					scanf("%d", &aux_mat_esp.col);
+					printf("informe dado: \n");
+					scanf("%f", &aux_mat_esp.dado);
+
+					if (aux_mat_esp.lin >= 0 && aux_mat_esp.col >= 0)
+					{
+						if (!check_campo_matriz_esp(mat.mat_esp, aux_mat_esp.lin, aux_mat_esp.col))
+						{
+							if (insere_matriz_esp(mat.mat_esp, aux_mat_esp))
+								printf("Sucesso inserir dados na matriz esparsa.\n");
+							else
+								printf("Erro ao inserir dados na matriz esparsa.\n");
+						}
+						else
+						{
+							printf("O campo ja possui dado\n");
+						}
+					}
+				} while (aux_mat_esp.lin < 0 || aux_mat_esp.col < 0);
 			}
-			// imprime_matriz_esparsa(mat.mat_esp);
-		} while (aux_mat_esp.lin < 0 || aux_mat_esp.col < 0);
+			printf("Deseja inserir mais dados? 1 - Sim 0 - Nao\n");
+			scanf("%hd", &opc);
+		} while (opc);
 	}
 	else
 	{
@@ -96,30 +101,40 @@ void rm_matriz_esp(Lista_Mat *lm)
 	int lin, col;
 	short int opc;
 	Matriz mat;
+
 	imprime_matrizes(lm);
 	printf("Escolha a matriz: \n");
 	scanf("%hd", &opc);
 	if (busca_matriz(lm, opc, &mat))
 	{
-		imprime_mat_esparsa(mat.mat_esp, mat.lin_tam, mat.col_tam);
+		opc = 1;
 		do
 		{
-			printf("Informe a linha da matriz: \n");
-			scanf("%d", &lin);
-			printf("Informe a coluna da matriz: \n");
-			scanf("%d", &col);
+			imprime_mat_esparsa(mat.mat_esp, mat.lin_tam, mat.col_tam);
 
-			if ((col >= 0 && col < mat.col_tam) && (lin >= 0 && lin < mat.col_tam))
-			// if (1)
+			if (opc)
 			{
-				if (remove_matriz_esp(mat.mat_esp, lin, col))
+				do
 				{
-					printf("Sucesso ao remover dado na matriz esparsa.\n");
-				}
-				else
-					printf("Erro ao remover dado na matriz esparsa.\n");
+					printf("Informe a linha da matriz: \n");
+					scanf("%d", &lin);
+					printf("Informe a coluna da matriz: \n");
+					scanf("%d", &col);
+
+					if ((col >= 0 && col < mat.col_tam) && (lin >= 0 && lin < mat.col_tam))
+					{
+						if (remove_matriz_esp(mat.mat_esp, lin, col))
+						{
+							printf("Sucesso ao remover dado na matriz esparsa.\n");
+						}
+						else
+							printf("Erro ao remover dado na matriz esparsa.\n");
+					}
+				} while ((col < 0 || col > mat.col_tam) || (lin < 0 || lin > mat.lin_tam));
 			}
-		} while ((col < 0 || col > mat.col_tam) || (lin < 0 || lin > mat.lin_tam));
+			printf("Deseja inserir mais dados? 1 - Sim 0 - Nao\n");
+			scanf("%hd", &opc);
+		} while (opc);
 	}
 	else
 	{
@@ -137,7 +152,6 @@ void imprime_mat_esp(Lista_Mat *lm)
 	scanf("%hd", &opc);
 	if (busca_matriz(lm, opc, &mat))
 	{
-
 		test2(mat.mat_esp);
 		imprime_mat_esparsa(mat.mat_esp, mat.lin_tam, mat.col_tam);
 	}
@@ -187,31 +201,44 @@ void operacoes_mat(Lista_Mat *lm)
 		menu_operacoes_mat_esp();
 		scanf("%hd", &opc_menu);
 
-		imprime_matrizes(lm);
-		printf("Escolha a primeira matriz\n");
-		scanf("%hd", &opc);
-		if (!busca_matriz(lm, opc, &mat1))
+		if (mat_result.col_tam == 0 && mat_result.lin_tam == 0)
 		{
-			printf("Matriz nao encontrado.\n");
-		}
-		printf("Escolha a segunda matriz\n");
-		scanf("%hd", &opc);
-		if (!busca_matriz(lm, opc, &mat2))
-		{
-			printf("Matriz nao encontrado.\n");
-		}
-
-		if (mat1.lin_tam == mat2.lin_tam && mat1.col_tam == mat2.col_tam)
-		{
-			if (mat_result.lin_tam == 0 && mat_result.col_tam == 0)
+			imprime_matrizes(lm);
+			printf("Escolha a primeira matriz\n");
+			scanf("%hd", &opc);
+			if (!busca_matriz(lm, opc, &mat1))
 			{
-				mat_result.lin_tam = mat1.lin_tam;
-				mat_result.col_tam = mat1.col_tam;
+				printf("Matriz nao encontrado.\n");
 			}
-
-			switch (opc_menu)
+			printf("Escolha a segunda matriz\n");
+			scanf("%hd", &opc);
+			if (!busca_matriz(lm, opc, &mat2))
 			{
-			case 1:
+				printf("Matriz nao encontrado.\n");
+			}
+		}
+		else
+		{
+			imprime_matrizes(lm);
+			printf("Escolha a matriz\n");
+			scanf("%hd", &opc);
+			if (!busca_matriz(lm, opc, &mat1))
+			{
+				printf("Matriz nao encontrado.\n");
+			}
+		}
+
+		if (mat_result.lin_tam == 0 && mat_result.col_tam == 0)
+		{
+			mat_result.lin_tam = mat1.lin_tam;
+			mat_result.col_tam = mat1.col_tam;
+		}
+
+		switch (opc_menu)
+		{
+		case 1:
+			if (mat1.lin_tam == mat2.lin_tam && mat1.col_tam == mat2.col_tam)
+			{
 				if (soma_duas_matrizes(mat1.mat_esp, mat2.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam))
 				{
 					printf("Sucesso ao somar as matrizes\n");
@@ -220,25 +247,50 @@ void operacoes_mat(Lista_Mat *lm)
 				{
 					printf("Erro ao somar as matrizes\n");
 				}
-				break;
-			case 2:
+			}
+			else
+			{
+				printf("As matrizes tem tamanhos diferentes\n");
+			}
+			break;
+		case 2:
+			if (mat1.lin_tam == mat2.lin_tam && mat1.col_tam == mat2.col_tam)
+			{
 				if (sub_duas_matrizes(mat1.mat_esp, mat2.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam))
 				{
-					printf("Sucesso ao somar as matrizes\n");
+					printf("Sucesso ao subtrair as matrizes\n");
 				}
 				else
 				{
-					printf("Erro ao somar as matrizes\n");
+					printf("Erro ao subtrair as matrizes\n");
 				}
-				break;
-			default:
-				break;
 			}
+			else
+			{
+				printf("As matrizes tem tamanhos diferentes\n");
+			}
+			break;
+		case 3:
+			if (mat1.lin_tam == mat2.col_tam)
+			{
+				if (multi_duas_matrizes(mat1.mat_esp, mat2.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam, mat2.lin_tam, mat2.col_tam))
+				{
+					printf("Sucesso ao multiplicar as matrizes\n");
+				}
+				else
+				{
+					printf("Erro ao multiplicar as matrizes\n");
+				}
+			}
+			else
+			{
+				printf("As matrizes tem tamanhos diferentes\n");
+			}
+			break;
+		default:
+			break;
 		}
-		else
-		{
-			printf("As matrizes tem tamanhos diferentes\n");
-		}
+
 		// imprime_mat_esparsa(mat.mat_esp, mat.lin_tam, mat.col_tam)
 		imprime_mat_esparsa(mat_result.mat_esp, mat_result.lin_tam, mat_result.col_tam);
 

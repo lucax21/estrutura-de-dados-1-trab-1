@@ -171,36 +171,11 @@ void imprime_matrizes(Lista_Mat *li)
 		Elem *no = li->inicio;
 		while (no != NULL)
 		{
-			printf("matriz id: %d\n", no->dados.id);
+			printf("matriz id: %d %dx%d\n", no->dados.id, no->dados.lin_tam, no->dados.col_tam);
 			no = no->prox;
 		}
 	}
 }
-
-// void imprime_matriz_esp(Matriz *mat)
-// {
-// 	// struct elemento_mat_esp *no = mat->mat_esp;
-
-// 	struct elemento_mat_esp *aux = test1(mat->mat_esp);
-
-// 	printf("");
-
-// 	for (int i = 0; i < mat->lin_tam; i++)
-// 	{
-// 		for (int j = 0; j < mat->col_tam; j++)
-// 		{
-// 			// if (false)
-// 			{
-// 				printf(" %d ");
-// 				// no = no->inicio->prox;
-// 			}
-// 			//else
-// 			printf(" 0 ");
-// 		}
-// 		printf("\n");
-// 	}
-// 	// }
-// }
 
 bool busca_matriz(Lista_Mat *li, short int id_mat, struct matriz *mat)
 {

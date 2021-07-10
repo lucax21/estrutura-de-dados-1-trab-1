@@ -26,6 +26,8 @@ bool soma_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_r
 
 bool sub_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_result, int lin, int col);
 
+bool multi_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_result, int lin_a, int col_a, int lin_b, int col_b);
+
 bool gera_matriz_transposta(Lista_Mat_Esp *li, Lista_Mat_Esp *l_result);
 
 // struct nodo *test(Lista_Mat_Esp *li);

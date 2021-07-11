@@ -52,6 +52,7 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param)
 		return 0;
 
 	no->dados = dado_param;
+	no->prox = NULL;
 	if (li->inicio == NULL)
 	{
 		li->inicio = no;
@@ -91,12 +92,10 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param)
 			}
 			else
 			{
-				if (dado_param.col > li->fim->dados.col)
-				{
-					no->prox = NULL;
-					li->fim->prox = no;
-					li->fim = no;
-				}
+
+				no->prox = NULL;
+				li->fim->prox = no;
+				li->fim = no;
 			}
 			printf("\n\ntest 2\n\n");
 		}
@@ -121,14 +120,18 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param)
 				}
 
 				//31 11 40
+				// 11
 				ant = atual;
 				atual = atual->prox;
 				printf("Test 5\n");
 			}
 			if (atual == li->inicio)
 			{
-				no->prox = li->inicio;
-				li->inicio = no;
+				// no->prox = li->inicio;
+				// li->inicio = no;
+				no->prox = NULL;
+				atual->prox = no;
+				li->fim = no;
 				return 1;
 			}
 			printf("\n\ntest 4  %d \n\n", (atual == NULL));

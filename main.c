@@ -54,7 +54,7 @@ void add_dados_matriz_esp(Lista_Mat *lm)
 					printf("informe dado: \n");
 					scanf("%f", &aux_mat_esp.dado);
 
-					if (aux_mat_esp.lin >= 0 && aux_mat_esp.col >= 0)
+					if (aux_mat_esp.lin >= 0 && aux_mat_esp.col >= 0 && aux_mat_esp.dado != 0)
 					{
 						if (!check_campo_matriz_esp(mat.mat_esp, aux_mat_esp.lin, aux_mat_esp.col))
 						{
@@ -190,6 +190,7 @@ void operacoes_mat(Lista_Mat *lm)
 {
 	Matriz mat1, mat2, mat_result;
 	short int opc, opc_menu;
+	bool test = 0;
 
 	//inicializa mat esparsa
 	mat_result.mat_esp = cria_matriz_esp();
@@ -221,6 +222,7 @@ void operacoes_mat(Lista_Mat *lm)
 			}
 			else
 			{
+				test = 1;
 				imprime_matrizes(lm);
 				printf("Escolha a matriz\n");
 				scanf("%hd", &opc);
@@ -228,11 +230,12 @@ void operacoes_mat(Lista_Mat *lm)
 				{
 					printf("Matriz nao encontrado.\n");
 				}
-				mat2 = mat_result;
+				// mat2 = mat_result;
 			}
 
 			if (mat_result.lin_tam == 0 && mat_result.col_tam == 0)
 			{
+
 				mat_result.lin_tam = mat1.lin_tam;
 				mat_result.col_tam = mat1.col_tam;
 			}
@@ -242,7 +245,11 @@ void operacoes_mat(Lista_Mat *lm)
 			case 1:
 				if (mat1.lin_tam == mat2.lin_tam && mat1.col_tam == mat2.col_tam)
 				{
-					if (soma_duas_matrizes(mat1.mat_esp, mat2.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam))
+					if (test)
+					{
+						soma_duas_matrizes(mat1.mat_esp, mat_result.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam);
+					}
+					else if (soma_duas_matrizes(mat1.mat_esp, mat2.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam))
 					{
 						printf("Sucesso ao somar as matrizes\n");
 					}
@@ -259,7 +266,11 @@ void operacoes_mat(Lista_Mat *lm)
 			case 2:
 				if (mat1.lin_tam == mat2.lin_tam && mat1.col_tam == mat2.col_tam)
 				{
-					if (sub_duas_matrizes(mat1.mat_esp, mat2.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam))
+					if (test)
+					{
+						sub_duas_matrizes(mat1.mat_esp, mat_result.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam);
+					}
+					else if (sub_duas_matrizes(mat1.mat_esp, mat2.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam))
 					{
 						printf("Sucesso ao subtrair as matrizes\n");
 					}
@@ -276,7 +287,11 @@ void operacoes_mat(Lista_Mat *lm)
 			case 3:
 				if (mat1.lin_tam == mat2.col_tam)
 				{
-					if (multi_duas_matrizes(mat1.mat_esp, mat2.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam, mat2.lin_tam, mat2.col_tam))
+					if (test)
+					{
+						multi_duas_matrizes(mat1.mat_esp, mat_result.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam, mat2.lin_tam, mat2.col_tam);
+					}
+					else if (multi_duas_matrizes(mat1.mat_esp, mat2.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam, mat2.lin_tam, mat2.col_tam))
 					{
 						printf("Sucesso ao multiplicar as matrizes\n");
 					}
@@ -296,6 +311,7 @@ void operacoes_mat(Lista_Mat *lm)
 		}
 
 		// imprime_mat_esparsa(mat.mat_esp, mat.lin_tam, mat.col_tam)
+		test2(mat_result.mat_esp);
 		imprime_mat_esparsa(mat_result.mat_esp, mat_result.lin_tam, mat_result.col_tam);
 
 	} while (opc_menu);

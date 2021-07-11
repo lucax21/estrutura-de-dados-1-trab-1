@@ -125,12 +125,12 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param)
 				atual = atual->prox;
 				printf("Test 5\n");
 			}
-			if (atual == li->inicio)
+			if (ant == li->inicio)
 			{
 				// no->prox = li->inicio;
 				// li->inicio = no;
 				no->prox = NULL;
-				atual->prox = no;
+				ant->prox = no;
 				li->fim = no;
 				return 1;
 			}
@@ -318,7 +318,7 @@ bool soma_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_r
 	Elem *no2 = l2->inicio;
 	int i, j;
 	float soma1, soma2, soma3;
-	Matriz_esparsa mat_esq;
+	Matriz_esparsa mat_aux;
 
 	// printf("lin %d col %d\n", lin, col);
 	for (i = 0; i < lin; i++)
@@ -327,12 +327,12 @@ bool soma_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_r
 		{
 			soma1 = soma2 = soma3 = 0;
 
-			printf("\ntest1\n");
 			for (no1 = l1->inicio; no1 != NULL; no1 = no1->prox)
 			{
 				if ((no1->dados.lin == i) && (no1->dados.col == j))
 				{
 					soma1 = no1->dados.dado;
+					break;
 				}
 			}
 			for (no2 = l2->inicio; no2 != NULL; no2 = no2->prox)
@@ -340,26 +340,35 @@ bool soma_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_r
 				if ((no2->dados.lin == i) && (no2->dados.col == j))
 				{
 					soma2 = no2->dados.dado;
+					break;
 				}
 			}
 			soma3 = soma1 + soma2;
-			mat_esq.lin = i;
-			mat_esq.col = j;
-			mat_esq.dado = soma3;
+			mat_aux.lin = i;
+			mat_aux.col = j;
+			mat_aux.dado = soma3;
+			printf(" i %d j %d Soma1 %f\n", i, j, soma1);
+			printf(" i %d j %d Soma2 %f\n", i, j, soma2);
+			printf(" i %d j %d Soma3 %f\n", i, j, soma3);
 			if (soma3)
 			{
 				if (!check_campo_matriz_esp(l_result, i, j))
 				{
-					insere_matriz_esp(l_result, mat_esq);
+					insere_matriz_esp(l_result, mat_aux);
 				}
 				else
 				{
 					Elem *no3 = l_result->inicio;
-					while (no3->dados.lin != i && no3->dados.col != j)
+					//no3->dados.lin != i && no3->dados.col != j &&
+					while (no3 != NULL)
 					{
+						if (no3->dados.lin == i && no3->dados.col == j)
+							break;
 						no3 = no3->prox;
 					}
-					no3->dados.dado += soma3;
+					printf("XXX %f soma %f\n", no3->dados.dado, soma3);
+					no3->dados.dado = soma3;
+					printf("YYY %f soma %f\n", no3->dados.dado, soma3);
 				}
 			}
 		}
@@ -391,6 +400,7 @@ bool sub_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_re
 				if ((no1->dados.lin == i) && (no1->dados.col == j))
 				{
 					soma1 = no1->dados.dado;
+					break;
 				}
 			}
 			for (no2 = l2->inicio; no2 != NULL; no2 = no2->prox)
@@ -399,6 +409,7 @@ bool sub_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_re
 				{
 					soma2 = no2->dados.dado;
 					soma2 = soma2 * -1;
+					break;
 				}
 			}
 			// ma - mb = ma + (-mb)
@@ -415,11 +426,14 @@ bool sub_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_re
 				else
 				{
 					Elem *no3 = l_result->inicio;
-					while (no3->dados.lin != i && no3->dados.col != j)
+					while (no3 != NULL)
 					{
+						if (no3->dados.lin == i && no3->dados.col == j)
+							break;
+
 						no3 = no3->prox;
 					}
-					no3->dados.dado += soma3;
+					no3->dados.dado = soma3;
 				}
 			}
 		}
@@ -443,15 +457,17 @@ bool multi_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_
 		for (int j = 0; j < col_b; j++)
 		{
 			result = 0;
-			vl_mat1 = 0;
-			vl_mat2 = 0;
+
 			for (int k = 0; k < lin_a; k++)
 			{
+				vl_mat1 = 0;
+				vl_mat2 = 0;
 				for (no1 = l1->inicio; no1 != NULL; no1 = no1->prox)
 				{
 					if ((no1->dados.lin == i) && (no1->dados.col == k))
 					{
 						vl_mat1 = no1->dados.dado;
+						break;
 					}
 				}
 				for (no2 = l2->inicio; no2 != NULL; no2 = no2->prox)
@@ -459,6 +475,7 @@ bool multi_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_
 					if ((no2->dados.lin == k) && (no2->dados.col == j))
 					{
 						vl_mat2 = no2->dados.dado;
+						break;
 					}
 				}
 				result += vl_mat1 * vl_mat2;
@@ -475,11 +492,13 @@ bool multi_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_
 				else
 				{
 					Elem *no3 = l_result->inicio;
-					while (no3->dados.lin != i && no3->dados.col != j)
+					while (no3 != NULL)
 					{
+						if (no3->dados.lin == i && no3->dados.col == j)
+							break;
 						no3 = no3->prox;
 					}
-					no3->dados.dado += result;
+					no3->dados.dado = result;
 				}
 			}
 		}

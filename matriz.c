@@ -179,7 +179,7 @@ void imprime_matrizes(Lista_Mat *li)
 
 bool busca_matriz(Lista_Mat *li, short int id_mat, struct matriz *mat)
 {
-	if (li == NULL)
+	if (li == NULL || li->inicio == NULL)
 		return 0;
 
 	if (li->final->dados.id == id_mat)

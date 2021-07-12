@@ -471,13 +471,18 @@ bool multi_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_
 	Elem *no2 = l2->inicio;
 	float vl_mat1, vl_mat2, result;
 	Matriz_esparsa mat_esq;
+
 	Lista_Mat_Esp *aux;
 
-	// aux = cria_matriz_esp();
-	// while (no1 != NULL){
-	// 	insere_matriz_esp();
-	// 	no1 = no1->prox;
-	// }
+	aux = cria_matriz_esp();
+	while (no1 != NULL)
+	{
+		mat_esq.lin = no1->dados.lin;
+		mat_esq.col = no1->dados.col;
+		mat_esq.dado = no1->dados.dado;
+		insere_matriz_esp(aux, mat_esq);
+		no1 = no1->prox;
+	}
 
 	for (int i = 0; i < lin_a; i++)
 	{
@@ -485,11 +490,11 @@ bool multi_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_
 		{
 			result = 0;
 
-			for (int k = 0; k < lin_b; k++)
+			for (int k = 0; k < lin_a; k++)
 			{
 				vl_mat1 = 0;
 				vl_mat2 = 0;
-				for (no1 = l1->inicio; no1 != NULL; no1 = no1->prox)
+				for (no1 = aux->inicio; no1 != NULL; no1 = no1->prox)
 				{
 					if ((no1->dados.lin == i) && (no1->dados.col == k))
 					{
@@ -537,7 +542,7 @@ bool multi_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_
 		}
 	}
 
-	// libera_matriz_esp(aux);
+	libera_matriz_esp(aux);
 	return 1;
 }
 

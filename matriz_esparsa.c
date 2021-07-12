@@ -78,7 +78,7 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param)
 					li->inicio = no;
 				}
 			}
-			printf("\n\ntest 1\n\n");
+			// printf("\n\ntest 1\n\n");
 		}
 
 		//insere no fim
@@ -97,12 +97,12 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param)
 				li->fim->prox = no;
 				li->fim = no;
 			}
-			printf("\n\ntest 2\n\n");
+			// printf("\n\ntest 2\n\n");
 		}
 		// insere no meio
 		else
 		{
-			printf("\n\ntest 3\n\n");
+			// printf("\n\ntest 3\n\n");
 			Elem *ant, *atual = li->inicio;
 			//&& (atual->dados.lin <= dado_param.lin && atual->dados.col < dado_param.col)
 			while (atual != NULL)
@@ -111,32 +111,40 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param)
 				{
 					if (atual->dados.col > dado_param.col)
 					{
-						printf("\n\n\nTest7\n\n\n");
+						// printf("\n\n\nTest7\n\n\n");
 						break;
 					}
 					else if (atual->dados.lin > dado_param.lin)
 						break;
-					printf("\n\n\nTest6\n\n\n");
 				}
 
 				//31 11 40
 				// 11
 				ant = atual;
 				atual = atual->prox;
-				printf("Test 5\n");
+				// printf("Test 5\n");
 			}
-			if (ant == li->inicio)
+			if (atual == li->inicio)
 			{
-				// no->prox = li->inicio;
-				// li->inicio = no;
-				no->prox = NULL;
-				ant->prox = no;
-				li->fim = no;
+				no->prox = li->inicio;
+				li->inicio = no;
 				return 1;
 			}
-			printf("\n\ntest 4  %d \n\n", (atual == NULL));
+			// else if (ant == li->inicio)
+			// {
+			// 	no->prox = NULL;
+			// 	ant->prox = no;
+			// 	li->fim = no;
+			// 	return 1;
+			// }
+
+			// printf("\n\ntest 4  %d \n\n", (atual == NULL));
 			no->prox = ant->prox;
 			ant->prox = no;
+			if (no->prox == NULL)
+			{
+				li->fim = no;
+			}
 		}
 	}
 
@@ -145,7 +153,7 @@ bool insere_matriz_esp(Lista_Mat_Esp *li, Matriz_esparsa dado_param)
 
 bool remove_matriz_esp(Lista_Mat_Esp *li, int lin, int col)
 {
-	if (li == NULL)
+	if (li == NULL || li->inicio == NULL)
 		return 0;
 
 	//remove do inicio
@@ -347,9 +355,9 @@ bool soma_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_r
 			mat_aux.lin = i;
 			mat_aux.col = j;
 			mat_aux.dado = soma3;
-			printf(" i %d j %d Soma1 %f\n", i, j, soma1);
-			printf(" i %d j %d Soma2 %f\n", i, j, soma2);
-			printf(" i %d j %d Soma3 %f\n", i, j, soma3);
+			// printf(" i %d j %d Soma1 %f\n", i, j, soma1);
+			// printf(" i %d j %d Soma2 %f\n", i, j, soma2);
+			// printf(" i %d j %d Soma3 %f\n", i, j, soma3);
 			if (soma3)
 			{
 				if (!check_campo_matriz_esp(l_result, i, j))
@@ -366,10 +374,14 @@ bool soma_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_r
 							break;
 						no3 = no3->prox;
 					}
-					printf("XXX %f soma %f\n", no3->dados.dado, soma3);
+					// printf("XXX %f soma %f\n", no3->dados.dado, soma3);
 					no3->dados.dado = soma3;
-					printf("YYY %f soma %f\n", no3->dados.dado, soma3);
+					// printf("YYY %f soma %f\n", no3->dados.dado, soma3);
 				}
+			}
+			else
+			{
+				remove_matriz_esp(l_result, i, j);
 			}
 		}
 	}
@@ -394,7 +406,7 @@ bool sub_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_re
 		{
 			soma1 = soma2 = soma3 = 0;
 
-			printf("\ntest1\n");
+			// printf("\ntest1\n");
 			for (no1 = l1->inicio; no1 != NULL; no1 = no1->prox)
 			{
 				if ((no1->dados.lin == i) && (no1->dados.col == j))
@@ -417,14 +429,18 @@ bool sub_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_re
 			mat_esq.lin = i;
 			mat_esq.col = j;
 			mat_esq.dado = soma3;
-			if (soma3)
+			if (soma3 != 0)
 			{
 				if (!check_campo_matriz_esp(l_result, i, j))
 				{
 					insere_matriz_esp(l_result, mat_esq);
 				}
+				// else if ()
+				// {
+				// }
 				else
 				{
+
 					Elem *no3 = l_result->inicio;
 					while (no3 != NULL)
 					{
@@ -435,6 +451,10 @@ bool sub_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_re
 					}
 					no3->dados.dado = soma3;
 				}
+			}
+			else
+			{
+				remove_matriz_esp(l_result, i, j);
 			}
 		}
 	}
@@ -451,6 +471,13 @@ bool multi_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_
 	Elem *no2 = l2->inicio;
 	float vl_mat1, vl_mat2, result;
 	Matriz_esparsa mat_esq;
+	Lista_Mat_Esp *aux;
+
+	// aux = cria_matriz_esp();
+	// while (no1 != NULL){
+	// 	insere_matriz_esp();
+	// 	no1 = no1->prox;
+	// }
 
 	for (int i = 0; i < lin_a; i++)
 	{
@@ -458,7 +485,7 @@ bool multi_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_
 		{
 			result = 0;
 
-			for (int k = 0; k < lin_a; k++)
+			for (int k = 0; k < lin_b; k++)
 			{
 				vl_mat1 = 0;
 				vl_mat2 = 0;
@@ -478,12 +505,14 @@ bool multi_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_
 						break;
 					}
 				}
+				// printf("XXX a %f b %f r %f\n", vl_mat1, vl_mat2, result);
 				result += vl_mat1 * vl_mat2;
+				// printf("YYY a %f b %f r %f\n", vl_mat1, vl_mat2, result);
 			}
 			mat_esq.lin = i;
 			mat_esq.col = j;
 			mat_esq.dado = result;
-			if (result)
+			if (result != 0)
 			{
 				if (!check_campo_matriz_esp(l_result, i, j))
 				{
@@ -501,8 +530,15 @@ bool multi_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_
 					no3->dados.dado = result;
 				}
 			}
+			else
+			{
+				remove_matriz_esp(l_result, i, j);
+			}
 		}
 	}
+
+	// libera_matriz_esp(aux);
+	return 1;
 }
 
 bool gera_matriz_transposta(Lista_Mat_Esp *li, Lista_Mat_Esp *l_result)
@@ -565,7 +601,7 @@ void imprime_mat_esparsa_diagonal(Lista_Mat_Esp *li, int lin_tam, int col_tam)
 	for (int j = 0; j < col_tam; j++)
 	{
 
-		while (no != NULL && no->dados.lin <= j && no->dados.col <= j)
+		while (no != NULL)
 		{
 			// printf("\ntest 1\n");
 			if (no->dados.lin == j && no->dados.col == j)

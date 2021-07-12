@@ -247,7 +247,7 @@ void operacoes_mat(Lista_Mat *lm)
 				{
 					if (test)
 					{
-						soma_duas_matrizes(mat1.mat_esp, mat_result.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam);
+						soma_duas_matrizes(mat_result.mat_esp, mat1.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam);
 					}
 					else if (soma_duas_matrizes(mat1.mat_esp, mat2.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam))
 					{
@@ -268,7 +268,7 @@ void operacoes_mat(Lista_Mat *lm)
 				{
 					if (test)
 					{
-						sub_duas_matrizes(mat1.mat_esp, mat_result.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam);
+						sub_duas_matrizes(mat_result.mat_esp, mat1.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam);
 					}
 					else if (sub_duas_matrizes(mat1.mat_esp, mat2.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam))
 					{
@@ -289,7 +289,7 @@ void operacoes_mat(Lista_Mat *lm)
 				{
 					if (test)
 					{
-						multi_duas_matrizes(mat1.mat_esp, mat_result.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam, mat2.lin_tam, mat2.col_tam);
+						multi_duas_matrizes(mat_result.mat_esp, mat1.mat_esp, mat_result.mat_esp, mat_result.lin_tam, mat_result.col_tam, mat2.lin_tam, mat2.col_tam);
 					}
 					else if (multi_duas_matrizes(mat1.mat_esp, mat2.mat_esp, mat_result.mat_esp, mat1.lin_tam, mat1.col_tam, mat2.lin_tam, mat2.col_tam))
 					{

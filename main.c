@@ -54,7 +54,7 @@ void add_dados_matriz_esp(Lista_Mat *lm)
 					printf("informe dado: \n");
 					scanf("%f", &aux_mat_esp.dado);
 
-					if (aux_mat_esp.lin >= 0 && aux_mat_esp.col >= 0 && aux_mat_esp.dado != 0)
+					if ((aux_mat_esp.lin >= 0 && aux_mat_esp.lin < mat.lin_tam) && (aux_mat_esp.col >= 0 && aux_mat_esp.col < mat.col_tam) && aux_mat_esp.dado != 0)
 					{
 						if (!check_campo_matriz_esp(mat.mat_esp, aux_mat_esp.lin, aux_mat_esp.col))
 						{
@@ -67,6 +67,10 @@ void add_dados_matriz_esp(Lista_Mat *lm)
 						{
 							printf("O campo ja possui dado\n");
 						}
+					}
+					else
+					{
+						printf("Erro campo fora do tamanho da matriz.\nTamanho da matriz eh %dx%d\n", mat.lin_tam, mat.col_tam);
 					}
 				} while (aux_mat_esp.lin < 0 || aux_mat_esp.col < 0);
 			}

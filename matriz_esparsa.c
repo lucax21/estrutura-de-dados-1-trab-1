@@ -212,22 +212,6 @@ bool remove_matriz_esp(Lista_Mat_Esp *li, int lin, int col)
 		if (atual == NULL)
 			return 0;
 
-		// else if (atual == li->inicio)
-		// {
-		// 	if (li->inicio->prox == NULL)
-		// 	{
-		// 		li->inicio = NULL;
-		// 		li->fim = NULL;
-		// 		free(atual);
-		// 		return 1;
-		// 	}
-		// 	else
-		// 	{
-		// 		li->inicio = atual->prox;
-		// 		free(atual);
-		// 		return 1;
-		// 	}
-		// }
 		else
 		{
 			//remove do fim
@@ -256,23 +240,20 @@ bool check_campo_matriz_esp(Lista_Mat_Esp *li, int lin, int col)
 
 	if (li->inicio == NULL)
 		return 0;
-	//
+	// nao acho no inicio da lista
 	if (lin == li->inicio->dados.lin && col == li->inicio->dados.col)
 	{
-		if (li->inicio == li->fim)
-		{
-			return 1;
-		}
-
-		else
-		{
-			return 1;
-		}
+		return 1;
 	}
 
+	// nao achou no fim da lista
+	if (lin == li->fim->dados.lin && col == li->fim->dados.col)
+	{
+		return 1;
+	}
 	else
 	{
-		Elem *ant, *atual = li->inicio;
+		Elem *atual = li->inicio;
 		// && (atual->dados.col != col && atual->dados.lin != lin)
 		while (atual != NULL)
 		{
@@ -295,8 +276,6 @@ bool check_campo_matriz_esp(Lista_Mat_Esp *li, int lin, int col)
 					}
 				}
 			}
-
-			ant = atual;
 			atual = atual->prox;
 		}
 
@@ -305,15 +284,7 @@ bool check_campo_matriz_esp(Lista_Mat_Esp *li, int lin, int col)
 			return 0;
 		else
 		{
-
-			if (atual->prox == NULL)
-			{
-				return 1;
-			}
-			else
-			{
-				return 1;
-			}
+			return 1;
 		}
 	}
 }
@@ -471,13 +442,18 @@ bool multi_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_
 	Elem *no2 = l2->inicio;
 	float vl_mat1, vl_mat2, result;
 	Matriz_esparsa mat_esq;
+
 	Lista_Mat_Esp *aux;
 
-	// aux = cria_matriz_esp();
-	// while (no1 != NULL){
-	// 	insere_matriz_esp();
-	// 	no1 = no1->prox;
-	// }
+	aux = cria_matriz_esp();
+	while (no1 != NULL)
+	{
+		mat_esq.lin = no1->dados.lin;
+		mat_esq.col = no1->dados.col;
+		mat_esq.dado = no1->dados.dado;
+		insere_matriz_esp(aux, mat_esq);
+		no1 = no1->prox;
+	}
 
 	for (int i = 0; i < lin_a; i++)
 	{
@@ -485,11 +461,11 @@ bool multi_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_
 		{
 			result = 0;
 
-			for (int k = 0; k < lin_b; k++)
+			for (int k = 0; k < lin_a; k++)
 			{
 				vl_mat1 = 0;
 				vl_mat2 = 0;
-				for (no1 = l1->inicio; no1 != NULL; no1 = no1->prox)
+				for (no1 = aux->inicio; no1 != NULL; no1 = no1->prox)
 				{
 					if ((no1->dados.lin == i) && (no1->dados.col == k))
 					{
@@ -537,7 +513,7 @@ bool multi_duas_matrizes(Lista_Mat_Esp *l1, Lista_Mat_Esp *l2, Lista_Mat_Esp *l_
 		}
 	}
 
-	// libera_matriz_esp(aux);
+	libera_matriz_esp(aux);
 	return 1;
 }
 
@@ -565,7 +541,6 @@ bool gera_matriz_transposta(Lista_Mat_Esp *li, Lista_Mat_Esp *l_result)
 
 void imprime_mat_esparsa(Lista_Mat_Esp *li, int lin_tam, int col_tam)
 {
-
 	// printf("XXX %d %d \n", lin_tam, col_tam);
 	Elem *no = li->inicio;
 	for (int i = 0; i < lin_tam; i++)
@@ -601,25 +576,23 @@ void imprime_mat_esparsa_diagonal(Lista_Mat_Esp *li, int lin_tam, int col_tam)
 	for (int j = 0; j < col_tam; j++)
 	{
 
-		while (no != NULL)
+		// while (no != NULL)
+		// {
+		// 	if (no->dados.lin == j && no->dados.col == j)
+		// 	{
+		// 		break;
+		// 	}
+		// 	no = no->prox;
+		// }
+		for (no = li->inicio; no != NULL; no = no->prox)
 		{
-			// printf("\ntest 1\n");
-			if (no->dados.lin == j && no->dados.col == j)
+			if ((no->dados.lin == j) && (no->dados.col == j))
 			{
-				// printf("\ntest 3\n");
-				// no = no->prox;
 				break;
 			}
-			else
-			{
-				// printf("\ntest 2\n");
-				no = no->prox;
-			}
 		}
-		// printf("\ntest 5\n");
 		if (no != NULL && no->dados.lin == j && no->dados.col == j)
 		{
-			// printf("\ntest 4\n");
 			printf(" %.2f ", no->dados.dado);
 			no = no->prox;
 		}
